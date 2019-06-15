@@ -1,0 +1,89 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: gray;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.modal {
+    display: block;
+    /* Hidden by default */
+    position: fixed;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    /* Fallback color */
+    background-color: gray;
+}
+
+.modal-content {
+    padding: 16px;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    width: 20%;
+    margin: 5% auto 15% auto;
+    /* 5% from the top, 15% from the bottom and centered */
+}
+
+
+/* Full-width input fields */
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+
+/* Overwrite default styles of hr */
+
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 15px;
+}
+
+
+/* Set a style for the submit button */
+
+button {
+    background-color: #fcc508;
+    color: #cc3333;
+    padding: 14px 20px;
+    margin: 4px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 1;
+}
+
+.animate {
+    animation: animatezoom 0.6s
+}
+
+@keyframes animatezoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
