@@ -61,7 +61,39 @@ app.get('/details', (req, res) => {
 });
 
 app.get('/shoppingcard', (req, res) => {
-    res.render('shoppingcard');
+    let items = [
+        {
+            imagePath: 'images/item-1.png',
+            price: '10,00',
+            description: {
+                rowTop: 'rowTop_1',
+                rowMiddle: 'rowMiddle_1',
+                rowBottom: 'rowBottom_1',
+            }
+        },
+        {
+            imagePath: 'images/item-1.png',
+            price: '20,00',
+            description: {
+                rowTop: 'rowTop_2',
+                rowMiddle: 'rowMiddle_2',
+                rowBottom: 'rowBottom_2',
+            }
+        },
+        {
+            imagePath: 'images/item-1.png',
+            price: '30,00',
+            description: {
+                rowTop: 'rowTop_3',
+                rowMiddle: 'rowMiddle_3',
+                rowBottom: 'rowBottom_3',
+            }
+        }
+    ];
+
+
+    console.log(items);
+    res.render('shoppingcard', { items: items });
 })
 
 app.post('/register/submit', function (req, res) {
