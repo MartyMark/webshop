@@ -9,8 +9,8 @@ html
             div(class='iconBar')
                 div(class='container')
                     div(class='login_register')
-                        a(class='login_register a', id='loginBtn', href='/login') Login
-                        a(class='login_register a', id='registerBtn', href='/register') Registrieren
+                        a(id='loginBtn', href='/login') Login
+                        a(id='registerBtn', href='/register') Register
                     div(class='cart')
                         a(id='cartBtn', href='/shoppingcard') Cart(0)
             div(class='header')
@@ -21,7 +21,7 @@ html
                         a(href='#') GRAFIKKARTEN
                         a(href='#') MOTHERBOARD
                         a(href='#') CONTACT
-            div(class='welcome_text')
+            div(class='welconme_text')
                 div(class='container')
                     h1 WELCOME TO #[span BCP] CHECK OUR LATEST OFFER
             div(class='event_section')
@@ -41,20 +41,20 @@ html
                     each product in products
                         div(class='productOne')
                             div(class='productImg')
-                                img(src=product.imagePath)
+                                img(src=product.IMAGE_PATH)
                             div(class='productText')
-                                h4 #{product.text}
+                                h4 #{product.NAME}
                             div(class='starIcon')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_black.png')
-                            div(class='productDesc') #{product.description}
+                            div(class='productDesc') #{product.DESCRIPTION}
                             div(class='productPrice')
-                                div(class='price') #{product.price}
+                                div(class='price') #{product.PRICE}
                             div(class='button')
-                               a(id='adToCard', href='/shoppingcard/add?id=product.id') In den Warenkorb
+                               a(id='adToCard', href='/shoppingcard/add?id=' + product.ID) In den Warenkorb
 
     
 

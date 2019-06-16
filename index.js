@@ -1,45 +1,33 @@
-const express = require('express');
-const mysql = require('mysql');
-const path = require('path');
+const express = require('express')
+const mysql = require('mysql')
+const path = require('path')
+const uuidv4 = require('uuid/v4')
+const NodeCache = require("node-cache")
 
 const app = express();
 
-app.use(express.static('public'));
-app.use(express.json());
+app.use(express.static('public'))
+app.use(express.json())
+app.use(express.urlencoded())
 
-app.set('views', path.join(__dirname, 'public/views'));
+app.set('views', path.join(__dirname, 'public/views'))
 app.set('view engine', 'pug');
 
-app.get('/', function (req, res) {
+const shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
+
+app.get('/', function(req, res) {
     const sectionTitle = 'SECTION_TITLE_TEXT_42';
-    const products = [{
 
-        imagePath: 'images/grafikkarte230.jpg',
-        text: 'PRODUKT_TEXT_1',
-        description: 'DESCRIPTION_1',
-        price: '199,99'
-    }, {
-        imagePath: 'images/grafikkarte230.jpg',
-        text: 'PRODUKT_TEXT_2',
-        description: 'DESCRIPTION_2',
-        price: '299,99'
-    }, {
-        imagePath: 'images/grafikkarte230.jpg',
-        text: 'PRODUKT_TEXT_3',
-        description: 'DESCRIPTION_3',
-        price: '399,99'
-    }, {
-        imagePath: 'images/grafikkarte230.jpg',
-        text: 'PRODUKT_TEXT_4',
-        description: 'DESCRIPTION_4',
-        price: '499,99'
-    }];
+    let sql = "SELECT * FROM product"
 
-    res.render('index', { sectionTitle: sectionTitle, products: products })
+    connection.query(sql, function(err, result) {
+        if (err) throw err;
+
+        res.render('index', { sectionTitle: sectionTitle, products: result })
+    });
 });
 
-app.get('/index/:username', function (req, res) {
-
+app.get('/index/:username', function(req, res) {
     var username = req.params.username;
     //res.render('index', { name: username }, function(err, html) {
     //html.getElementById('loginText').value = username;
@@ -61,8 +49,7 @@ app.get('/details', (req, res) => {
 });
 
 app.get('/shoppingcard', (req, res) => {
-    let items = [
-        {
+    let items = [{
             imagePath: 'images/item-1.png',
             price: '10,00',
             description: {
@@ -94,7 +81,22 @@ app.get('/shoppingcard', (req, res) => {
     res.render('shoppingcard', { items: items });
 })
 
-app.post('/register/submit', function (req, res) {
+app.get('/shoppingcard/add', (req, res) => {
+    let productId = req.query.id
+    let ip = req.connection.remoteAddress
+
+    let values = shoppingBagCache.get(ip);
+
+    if (values === null) {
+        shoppingBagCache.set(ip, [], 10000);
+    }
+    console.log(shoppingBagCache.get(ip))
+        //shoppingBagCache.get(ip).push(productId)
+
+    //res.render('index', { amount: shoppingBagCache.get(ip).length })
+})
+
+app.post('/register/submit', function(req, res) {
     let sql = "INSERT INTO user (vorname, name, street, zipcode, email, password) VALUES (\"#FIRSTNAME#\",\"#LASTNAME#\",\"#STREET#\",\"#PLZ#\",\"#EMAIL#\",\"#PASSWORD#\")";
 
     sql.replace('#FIRSTNAME#', req.body.firstName);
@@ -104,7 +106,7 @@ app.post('/register/submit', function (req, res) {
     sql.replace('#EMAIL#', req.body.email);
     sql.replace('#PASSWORD#', req.body.password);
 
-    connection.query(sql, function (err, result) {
+    connection.query(sql, function(err, result) {
         if (err) throw err;
         console.log("user-record inserted");
     });
@@ -121,7 +123,7 @@ app.post('/login/submit', (req, res) => {
 
     var sql = "SELECT * FROM user WHERE name = '" + username + "' and password = '" + password + "'";
 
-    connection.query(sql, function (err, result) {
+    connection.query(sql, function(err, result) {
         if (err) throw err;
 
         if (!result.length) {
@@ -140,7 +142,7 @@ var connection = mysql.createConnection({
     database: 'sampledb'
 });
 
-connection.connect(function (error) {
+connection.connect(function(error) {
     if (!error) {
         console.log('Error');
     } else {
