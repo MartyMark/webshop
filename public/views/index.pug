@@ -9,8 +9,8 @@ html
             div(class='iconBar')
                 div(class='container')
                     div(class='login_register')
-                        a(class='login_register a', id='loginBtn', href='/login') Login
-                        a(class='login_register a', id='registerBtn', href='/register') Registrieren
+                        a(id='loginBtn', href='/login') Login
+                        a(id='registerBtn', href='/register') Register
                     div(class='cart')
                         a(id='cartBtn', href='/shoppingcard') Cart(0)
             div(class='header')
@@ -21,7 +21,7 @@ html
                         a(href='#') GRAFIKKARTEN
                         a(href='#') MOTHERBOARD
                         a(href='#') CONTACT
-            div(class='welcome_text')
+            div(class='welconme_text')
                 div(class='container')
                     h1 WELCOME TO #[span BCP] CHECK OUR LATEST OFFER
             div(class='event_section')
@@ -53,7 +53,7 @@ html
                             div(class='productDesc') #{product.DESCRIPTION}
                             div(class='productPrice')
                                 div(class='price') #{product.PRICE}
-                            div(class='button') ADD TO CART
+                            div(class='button' href='/shoppingcard/add?id=' + product.ID) ADD TO CART
 
 
 

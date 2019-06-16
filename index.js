@@ -45,8 +45,7 @@ app.get('/details', (req, res) => {
 });
 
 app.get('/shoppingcard', (req, res) => {
-    let items = [
-        {
+    let items = [{
             imagePath: 'images/item-1.png',
             price: '10,00',
             description: {
@@ -78,6 +77,12 @@ app.get('/shoppingcard', (req, res) => {
 
     console.log(items);
     res.render('shoppingcard', { items: items });
+})
+
+app.post('/shoppingcard/add', (req, res) => {
+    let productId = req.query.id
+
+    res.render('index', { amount: amount })
 })
 
 app.post('/register/submit', function(req, res) {
