@@ -48,12 +48,20 @@ app.get('/index/:username', function (req, res) {
     res.redirect('/');
 });
 
-app.get('/login', function (req, res) {
+app.get('/login', (reg, res) => {
     res.render('login');
 });
 
-app.get('/register', function (req, res) {
+app.get('/register', (req, res) => {
     res.render('register');
+});
+
+app.get('/details', (req, res) => {
+    res.render('details');
+});
+
+app.get('/shoppingcard', (req, res) => {
+    res.render('shoppingcard');
 })
 
 app.post('/register/submit', function (req, res) {
