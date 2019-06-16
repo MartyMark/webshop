@@ -1,14 +1,19 @@
-const express = require('express');
-const mysql = require('mysql');
-const path = require('path');
+const express = require('express')
+const mysql = require('mysql')
+const path = require('path')
+const uuidv4 = require('uuid/v4')
+const NodeCache = require("node-cache")
 
 const app = express();
 
-app.use(express.static('public'));
-app.use(express.json());
+app.use(express.static('public'))
+app.use(express.json())
+app.use(express.urlencoded())
 
-app.set('views', path.join(__dirname, 'public/views'));
+app.set('views', path.join(__dirname, 'public/views'))
 app.set('view engine', 'pug');
+
+const shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
 
 app.get('/', function(req, res) {
     const sectionTitle = 'SECTION_TITLE_TEXT_42';
@@ -23,7 +28,6 @@ app.get('/', function(req, res) {
 });
 
 app.get('/index/:username', function(req, res) {
-
     var username = req.params.username;
     //res.render('index', { name: username }, function(err, html) {
     //html.getElementById('loginText').value = username;
@@ -79,10 +83,19 @@ app.get('/shoppingcard', (req, res) => {
     res.render('shoppingcard', { items: items });
 })
 
-app.post('/shoppingcard/add', (req, res) => {
+app.get('/shoppingcard/add', (req, res) => {
     let productId = req.query.id
+    let ip = req.connection.remoteAddress
 
-    res.render('index', { amount: amount })
+    let values = shoppingBagCache.get(ip);
+
+    if (values === null) {
+        shoppingBagCache.set(ip, [], 10000);
+    }
+    console.log(shoppingBagCache.get(ip))
+        //shoppingBagCache.get(ip).push(productId)
+
+    //res.render('index', { amount: shoppingBagCache.get(ip).length })
 })
 
 app.post('/register/submit', function(req, res) {
