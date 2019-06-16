@@ -53,9 +53,10 @@ html
                             div(class='productDesc') #{product.description}
                             div(class='productPrice')
                                 div(class='price') #{product.price}
-                            div(class='button') ADD TO CART
+                            div(class='button')
+                               a(id='adToCard', href='/shoppingcard/add?id=product.id') In den Warenkorb
 
-
+    
 
 
 
