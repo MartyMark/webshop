@@ -161,7 +161,6 @@ body {
     border-radius: 7px;
     background-color: white;
     padding-bottom: 15px;
-    margin-left: 16px;
     margin-right: 16px;
 }
 
@@ -230,7 +229,6 @@ body {
 .button {
     float: right;
     padding: 5px;
-    background-color: #fcc508;
     border-radius: 5px;
     color: #cd3737;
     margin-right: 10px;

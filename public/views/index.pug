@@ -52,10 +52,11 @@ html
                                 img(src='images/star_black.png')
                             div(class='productDesc') #{product.DESCRIPTION}
                             div(class='productPrice')
-                                div(class='price') #{product.PRICE}
-                            div(class='button' href='/shoppingcard/add?id=' + product.ID) ADD TO CART
+                                div(class='price') #{product.price}
+                            div(class='button')
+                               a(id='adToCard', href='/shoppingcard/add?id=product.id') In den Warenkorb
 
-
+    
 
 
 
