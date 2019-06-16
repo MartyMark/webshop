@@ -17,6 +17,7 @@ app.get('/', function(req, res) {
 
     connection.query(sql, function(err, result) {
         if (err) throw err;
+
         res.render('index', { sectionTitle: sectionTitle, products: result })
     });
 });
