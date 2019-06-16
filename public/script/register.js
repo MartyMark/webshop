@@ -1,10 +1,10 @@
-import modal from 'modal';
+import { modalHandlerFn } from './modal.js';
 
 /**
  * Window-Clickfunction die aufgerufen wird, sobald außerhalb des modalen
  * Dialogs geklickt wurde
  */
-window.onclick = modal.modalHandlerFn;
+window.onclick = modalHandlerFn;
 
 submitButton.addEventListener("click", function () {
     var model_content = document.getElementById("modal-content")

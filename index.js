@@ -57,14 +57,14 @@ app.get('/register', function (req, res) {
 })
 
 app.post('/register/submit', function (req, res) {
-    var name = req.body.name;
-    var surname = req.body.surname;
-    var street = req.body.street;
-    var zipcode = req.body.zipcode;
-    var email = req.body.email;
-    var password = req.body.psw;
+    let sql = "INSERT INTO user (vorname, name, street, zipcode, email, password) VALUES (\"#FIRSTNAME#\",\"#LASTNAME#\",\"#STREET#\",\"#PLZ#\",\"#EMAIL#\",\"#PASSWORD#\")";
 
-    var sql = "INSERT INTO user (VORNAME, name, street, zipcode, email, password) VALUES ('" + surname + "','" + name + "','" + street + "','" + zipcode + "','" + email + "','" + password + "')";
+    sql.replace('#FIRSTNAME#', req.body.firstName);
+    sql.replace('#LASTNAME#', req.body.lastName);
+    sql.replace('#STREET#', req.body.street);
+    sql.replace('#PLZ#', req.body.zipcode);
+    sql.replace('#EMAIL#', req.body.email);
+    sql.replace('#PASSWORD#', req.body.password);
 
     connection.query(sql, function (err, result) {
         if (err) throw err;
