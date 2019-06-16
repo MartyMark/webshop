@@ -91,8 +91,6 @@ app.get('/shoppingcard', (req, res) => {
         }
     ];
 
-
-    console.log(items);
     res.render('shoppingcard', { items: items });
 })
 
@@ -114,6 +112,10 @@ app.post('/register/submit', function (req, res) {
 });
 
 app.post('/login/submit', (req, res) => {
+    console.log(req);
+    console.log(req.body);
+    console.log(req.body.username);
+    console.log(req.body.psw);
     var username = req.body.username;
     var password = req.body.psw;
 
