@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        link(rel='stylesheet', type='text/css', href='./css/register.css')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+    body
+        div(class='modal', id='modalHandle')
+            form(class='modal-content animate', action='/register/submit', method='post', id='model-content')
+                h1 Register
+                hr
+                input(type='text', placeholder='Nachname', name='lastName', required)
+                input(type='text', placeholder='Vorname', name='firstName', required)
+                input(type='text', placeholder='Strasse', name='street', required)
+                input(type='text', placeholder='PLZ', name='plz', required)
+                input(type='text', placeholder='E-Mail', name='email', required)
+                input(type='text', placeholder='Passwort', name='pw', required)
+                input(type='password', placeholder='Passwort wiederholen', name='pw-repeat', required)
+                hr
+                button(id='submitButton', type='submit') Registrieren
+        script(type="module", src='script/register.js')

@@ -1,18 +1,44 @@
-var express = require('express');
-var mysql = require('mysql');
-var app = express();
-
+const express = require('express');
+const mysql = require('mysql');
 const path = require('path');
+
+const app = express();
 
 app.use(express.static('public'));
 app.use(express.json());
-app.use(express.urlencoded());
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '/public/index.html'));
+app.set('views', path.join(__dirname, 'public/views'));
+app.set('view engine', 'pug');
+
+app.get('/', function (req, res) {
+    const sectionTitle = 'SECTION_TITLE_TEXT_42';
+    const products = [{
+
+        imagePath: 'images/grafikkarte230.jpg',
+        text: 'PRODUKT_TEXT_1',
+        description: 'DESCRIPTION_1',
+        price: '199,99'
+    }, {
+        imagePath: 'images/grafikkarte230.jpg',
+        text: 'PRODUKT_TEXT_2',
+        description: 'DESCRIPTION_2',
+        price: '299,99'
+    }, {
+        imagePath: 'images/grafikkarte230.jpg',
+        text: 'PRODUKT_TEXT_3',
+        description: 'DESCRIPTION_3',
+        price: '399,99'
+    }, {
+        imagePath: 'images/grafikkarte230.jpg',
+        text: 'PRODUKT_TEXT_4',
+        description: 'DESCRIPTION_4',
+        price: '499,99'
+    }];
+
+    res.render('index', { sectionTitle: sectionTitle, products: products })
 });
 
-app.get('/index/:username', function(req, res) {
+app.get('/index/:username', function (req, res) {
 
     var username = req.params.username;
     //res.render('index', { name: username }, function(err, html) {
@@ -22,11 +48,15 @@ app.get('/index/:username', function(req, res) {
     res.redirect('/');
 });
 
-app.get('/login', function(req, res) {
-    res.status(200).sendFile(path.join(__dirname, '/public/login.html'));
+app.get('/login', function (req, res) {
+    res.render('login');
 });
 
-app.post('/register/submit', function(req, res) {
+app.get('/register', function (req, res) {
+    res.render('register');
+})
+
+app.post('/register/submit', function (req, res) {
     var name = req.body.name;
     var surname = req.body.surname;
     var street = req.body.street;
@@ -36,7 +66,7 @@ app.post('/register/submit', function(req, res) {
 
     var sql = "INSERT INTO user (VORNAME, name, street, zipcode, email, password) VALUES ('" + surname + "','" + name + "','" + street + "','" + zipcode + "','" + email + "','" + password + "')";
 
-    connection.query(sql, function(err, result) {
+    connection.query(sql, function (err, result) {
         if (err) throw err;
         console.log("user-record inserted");
     });
@@ -49,7 +79,7 @@ app.post('/login/submit', (req, res) => {
 
     var sql = "SELECT * FROM user WHERE name = '" + username + "' and password = '" + password + "'";
 
-    connection.query(sql, function(err, result) {
+    connection.query(sql, function (err, result) {
         if (err) throw err;
 
         if (!result.length) {
@@ -68,8 +98,8 @@ var connection = mysql.createConnection({
     database: 'sampledb'
 });
 
-connection.connect(function(error) {
-    if (!!error) {
+connection.connect(function (error) {
+    if (!error) {
         console.log('Error');
     } else {
         console.log('Connected');

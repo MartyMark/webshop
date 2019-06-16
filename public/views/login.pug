@@ -1,0 +1,16 @@
+doctype html
+html
+    head
+        title Login
+        link(rel='stylesheet', href='css/login.css')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+    body
+        div(class='modal', id='modalHandle')
+            form(class='modal-content animate', action='/login/submit', method='post')
+                div(class='container')
+                    input(type='text', placeholder='Username', name='username', required)
+                    input(type='password', placeholder='Passwort', name='psw', required)
+                    button(type='submit') Login
+                div(class='container')
+                    a(href='/password_recovery') Passwort vergessen?
+        script(type="module", src='/script/login.js')

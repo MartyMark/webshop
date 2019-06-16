@@ -1,0 +1,58 @@
+doctype html
+html 
+    head
+        title Simple Web Shop
+        link(rel='stylesheet', href='/css/main.css')
+    body
+        div(class='main')
+            div(class='topbar')
+            div(class='iconBar')
+                div(class='container')
+                    div(class='login_register')
+                        a(id='loginBtn', href='/login') Login
+                        a(id='registerBtn', href='/register') Register
+                    div(class='cart')
+                        a(id='cartText', href='#') Cart(0)
+            div(class='header')
+                div(class='container')
+                    div(class='navbar')
+                        a(href='#') TOPSELLER
+                        a(href='#') PC-KONFIGURATOR
+                        a(href='#') GRAFIKKARTEN
+                        a(href='#') MOTHERBOARD
+                        a(href='#') CONTACT
+            div(class='welconme_text')
+                div(class='container')
+                    h1 WELCOME TO #[span BCP] CHECK OUR LATEST OFFER
+            div(class='event_section')
+                div(class='container')
+                    div(class='firstEvent')
+                        h3 CHECKOUT
+                        p TEXT TEXT TEXT TEXT TEXT
+                    div(class='secondEvent')
+                        h3 CHECKOUT
+                        p TEXT TEXT TEXT TEXT TEXT
+                    div(class='thirdEvent')
+                        h3 CHECKOUT
+                        p TEXT TEXT TEXT TEXT TEXT
+            div(class='product')
+                div(class='container')
+                    div(class='product_section_title') #{sectionTitle}
+                    each product in products
+                        div(class='productOne')
+                            div(class='productImg')
+                                img(src=product.imagePath)
+                            div(class='productText')
+                                h4 #{product.text}
+                            div(class='starIcon')
+                                img(src='images/star_yellow.png')
+                                img(src='images/star_yellow.png')
+                                img(src='images/star_yellow.png')
+                                img(src='images/star_yellow.png')
+                                img(src='images/star_black.png')
+                            div(class='productDesc') #{product.description}
+                            div(class='productPrice')
+                                div(class='price') #{product.price}
+                            div(class='button') ADD TO CART
+
+
