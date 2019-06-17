@@ -2,28 +2,42 @@ doctype html
 html
     head
         title Einkaufswagen
-        link(rel='stylesheet', tpye='text/css', href='/css/shoppingcard.css')
+        link(rel='stylesheet', href='/css/shoppingcard.css')
+        link(rel='stylesheet', href='/css/main.css')
     body
-        div(class='shopping-cart')
-            div(class='title') Shopping Bag
-            each item in items
-                div(class='item')
-                    div(class='buttons')
-                        span(class='delete-btn')
-                            img(src='images/delete-icn.svg')
-                    div(class='image')
-                        img(src=item.imagePath, alt='')
-                    div(class='description') 
-                        span #{item.description.rowTop}
-                        span #{item.description.rowMiddle}
-                        span #{item.description.rowBottom}
-                    div(class='quantity')
-                        button(class='plus-btn', type='button', name='button')
-                            img(src='images/plus.svg', alt='')
-                        
-                        input(type='text', name='name', value='1')
-                        
-                        button(class='minus-btn', type='button', name='button')
-                            img(src='images/minus.svg', alt='')
-                    div(class='price') #{item.price}
-        script(type="module", src='script/shoppingBag.js')
+        div(class='main')
+            div(class='topbar')
+            div(class='iconBar')
+                div(class='container')
+                    div(class='login_register')
+                        img(id='homeBtn', href='/', src='images/home.png') 
+                        a(id='loginBtn', href='/login') Login
+                        a(id='registerBtn', href='/register') Register
+                    div(id="cartContainer" class='cart')
+                        img(id="cartImage" src='images/shoppingcart.png')
+                        a(id='productCount') #{count}
+                        a(id='totalAmount') #{totalAmount} €
+            div(class='shopping-cart')
+                div(class='title') Shopping Bag
+                each item in items
+                    div(class='item')
+                        div(class='buttons')
+                            span(class='delete-btn')
+                                img(src='images/delete-icn.svg')
+                        div(class='image')
+                            img(src=item.imagePath, alt='')
+                        div(class='description') 
+                            span #{item.description.rowTop}
+                            span #{item.description.rowMiddle}
+                            span #{item.description.rowBottom}
+                        div(class='quantity')
+                            button(class='plus-btn', type='button', name='button')
+                                img(src='images/plus.svg', alt='')
+                            
+                            input(type='text', name='name', value='1')
+                            
+                            button(class='minus-btn', type='button', name='button')
+                                img(src='images/minus.svg', alt='')
+                        div(class='price') #{item.price}
+        script(type="module", src='/script/shoppingBag.js')
+        script(type="module", src='/script/main.js')

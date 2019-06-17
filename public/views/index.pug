@@ -9,10 +9,13 @@ html
             div(class='iconBar')
                 div(class='container')
                     div(class='login_register')
+                        img(id='homeBtn', src='images/home.png') 
                         a(id='loginBtn', href='/login') Login
                         a(id='registerBtn', href='/register') Register
-                    div(class='cart')
-                        a(id='cartBtn', href='/shoppingcard') Cart(0)
+                    div(id="cartContainer" class='cart')
+                        img(id="cartImage" src='images/shoppingcart.png')
+                        a(id='productCount') #{count}
+                        a(id='totalAmount') #{totalAmount} €
             div(class='header')
                 div(class='container')
                     div(class='navbar')
@@ -39,7 +42,7 @@ html
                 div(class='container')
                     div(class='product_section_title') #{sectionTitle}
                     each product in products
-                        div(class='productOne')
+                        div(class='productCard')
                             div(class='productImg')
                                 img(src=product.IMAGE_PATH)
                             div(class='productText')
@@ -54,8 +57,8 @@ html
                             div(class='productPrice')
                                 div(class='price') #{product.PRICE}
                             div(class='button')
-                               a(id='adToCard', href='/shoppingcard/add?id=' + product.ID) In den Warenkorb
-
+                               a(id='adToCard', href='/shoppingcard/add?id=' + product.ID +'&price=' + product.PRICE) In den Warenkorb
+    script(type="module", src='/script/main.js')
     
 
 
