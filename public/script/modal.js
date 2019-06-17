@@ -8,8 +8,6 @@
 export function modalHandlerFn(event) {
     var modal = document.getElementById('modalHandle');
 
-    sessionStorage.setItem('1', '2')
-
     if (event.target == modal) {
         modal.style.display = "none";
         location.href = "/"

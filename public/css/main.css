@@ -51,23 +51,35 @@ body {
     margin-right: 8px;
 }
 
+.login_register a:hover {
+    opacity: 0.7;
+}
+
 .cart {
-    width: 100px;
+    width: 112px;
     height: 50px;
     background-color: #fcc508;
     float: right;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    cursor: pointer;
 }
 
 .cart a {
-    height: 50px;
-    line-height: 50px;
     color: #cc3333;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 15px;
     text-decoration: none;
+}
+
+#totalAmount {
+    margin-left: 10px;
+    margin-bottom: 4px;
+}
+
+.cart img {
+    margin-top: 10px;
+    margin-left: 5px;
 }
 
 .header {
@@ -90,6 +102,10 @@ body {
     padding: 0 10px;
     text-decoration: none;
     font-weight: bold;
+}
+
+.navbar a:hover {
+    opacity: 0.7;
 }
 
 .welcome_text {
@@ -154,7 +170,7 @@ body {
     margin-bottom: 15px;
 }
 
-.productOne {
+.productCard {
     float: left;
     width: 230px;
     height: auto;
@@ -229,7 +245,18 @@ body {
 .button {
     float: right;
     padding: 5px;
+    background-color: #fcc508;
     border-radius: 5px;
     color: #cd3737;
     margin-right: 10px;
+}
+
+.button a {
+    color: #cd3737;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.button:hover {
+    opacity: 0.7;
 }

@@ -20,10 +20,13 @@ app.get('/', function(req, res) {
 
     let sql = "SELECT * FROM product"
 
+    let count = calculateCount(req)
+    let totalAmount = calculateTotalAmount(req)
+
     connection.query(sql, function(err, result) {
         if (err) throw err;
 
-        res.render('index', { sectionTitle: sectionTitle, products: result })
+        res.render('index', { sectionTitle: sectionTitle, products: result, count: count, totalAmount: totalAmount })
     });
 });
 
@@ -77,25 +80,31 @@ app.get('/shoppingcard', (req, res) => {
             }
         }
     ];
+    let count = calculateCount(req)
+    let totalAmount = calculateTotalAmount(req)
 
-
-    console.log(items);
-    res.render('shoppingcard', { items: items });
+    res.render('shoppingcard', { items: items, count: count, totalAmount: totalAmount });
 })
 
 app.get('/shoppingcard/add', (req, res) => {
     let productId = req.query.id
+    let productPrice = req.query.price
+
     let ip = req.connection.remoteAddress
 
-    let values = shoppingBagCache.get(ip);
+    let productList = shoppingBagCache.get(ip);
+    let product = { 'id': productId, 'price': productPrice }
 
-    if (values === null) {
-        shoppingBagCache.set(ip, [], 10000);
+    if (typeof productList === 'undefined') {
+        shoppingBagCache.set(ip, [product], 10000);
+    } else {
+        productList.push(product)
+        shoppingBagCache.set(ip, productList, 10000);
     }
-    console.log(shoppingBagCache.get(ip))
-        //shoppingBagCache.get(ip).push(productId)
+    let count = shoppingBagCache.get(ip).length
+    let totalAmount = calculateTotalAmount(req)
 
-    //res.render('index', { amount: shoppingBagCache.get(ip).length })
+    //res.render('index', { count: count, totalAmount: totalAmount })
 })
 
 app.post('/register/submit', function(req, res) {
@@ -151,3 +160,27 @@ connection.connect(function(error) {
 const PORT = process.env.PORT || 5500;
 
 app.listen(PORT, () => console.log('Server started'));
+
+function calculateTotalAmount(req) {
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip)
+    let totalAmount = 0;
+
+    if (typeof productList !== 'undefined') {
+        productList.forEach(element => {
+            totalAmount += parseFloat(element.price)
+        });
+    }
+    return String(Number(totalAmount).toFixed(2))
+}
+
+function calculateCount(req) {
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip)
+    let count = 0;
+
+    if (typeof productList !== 'undefined') {
+        count = productList.length
+    }
+    return count;
+}
