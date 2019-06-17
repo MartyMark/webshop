@@ -10,6 +10,7 @@ html
             div(class='iconBar')
                 div(class='container')
                     div(class='login_register')
+                        img(id='homeBtn', href='/', src='images/home.png') 
                         a(id='loginBtn', href='/login') Login
                         a(id='registerBtn', href='/register') Register
                     div(id="cartContainer" class='cart')
@@ -38,4 +39,5 @@ html
                             button(class='minus-btn', type='button', name='button')
                                 img(src='images/minus.svg', alt='')
                         div(class='price') #{item.price}
-        script(type="module", src='script/shoppingBag.js')
+        script(type="module", src='/script/shoppingBag.js')
+        script(type="module", src='/script/main.js')

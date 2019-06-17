@@ -1,4 +1,5 @@
 let cartContaiener = document.getElementById('cartContainer');
+let homeBtn = document.getElementById('homeBtn');
 
 cartContaiener.addEventListener("click", clickOnCart)
 cartContaiener.addEventListener("mouseover", mouseOverCart)
@@ -27,3 +28,14 @@ function mouseOutCart() {
     productCount.style.opacity = 1
     totalAmount.style.opacity = 1
 }
+
+homeBtn.addEventListener("click", function() {
+    window.location.href = '/'
+})
+homeBtn.addEventListener("mouseover", function() {
+    homeBtn.style.opacity = 0.7
+})
+
+homeBtn.addEventListener("mouseout", function() {
+    homeBtn.style.opacity = 1
+})

@@ -49,10 +49,21 @@ body {
     line-height: 33px;
     width: auto;
     margin-right: 8px;
+    margin-left: 4px;
 }
 
 .login_register a:hover {
     opacity: 0.7;
+}
+
+#loginBtn {
+    margin-left: 14px;
+}
+
+.login_register img {
+    margin-top: 3px;
+    cursor: pointer;
+    float: left;
 }
 
 .cart {
