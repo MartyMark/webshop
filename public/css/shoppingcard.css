@@ -118,9 +118,6 @@ body {
     padding: 20px 30px;
     height: 150px;
     display: flex;
-}
-
-.item:nth-child(3) {
     border-top: 1px solid #E1E8EE;
     border-bottom: 1px solid #E1E8EE;
 }
@@ -128,9 +125,7 @@ body {
 .delete-btn {
     padding-top: 60px;
     margin-right: 60px;
-    display: inline-block;
     Cursor: pointer;
-    background: url(&quot;delete-icn.svg&quot;) no-repeat center;
 }
 
 .delete-btn img {
@@ -162,10 +157,6 @@ body {
     font-size: 14px;
     color: #43484D;
     font-weight: 400;
-}
-
-.description span:first-child {
-    margin-bottom: 5px;
 }
 
 .description span:last-child {

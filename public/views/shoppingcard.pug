@@ -20,9 +20,9 @@ html
                 div(class='title') #{title}
                 each product in products
                     div(class='item')
-                        button(class='delete-btn', type='button', name='button')
+                        div(class='delete-btn', type='button', name='button')
                             a(href='/shoppingcard/delete?id=' + product.id) 
-                                img(id="deleteBtn" src='images/delete-icn.svg')
+                                img(id="deleteBtn" src='images/cross.png')
                         div(class='image')
                             img(src=product.image_path, alt='')
                         div(class='description') 
@@ -30,12 +30,14 @@ html
                             span Noch #{product.stock} auf Lager
                         div(class='quantity')
                             button(class='plus-btn', type='button', name='button')
-                                img(src='images/plus.svg', alt='')
+                                a(href='/shoppingcard/addInBag?id=' + product.id+'&originalPrice=' + product.originalPrice) 
+                                    img(src='images/plus.svg', alt='')
                             
-                            spam(id='productCount') 1
+                            spam(id='productCount') #{product.count}
                             
                             button(class='minus-btn', type='button', name='button')
-                                img(src='images/minus.svg', alt='')
+                                a(href='/shoppingcard/reduceInBag?id=' + product.id +'&price=' + product.originalPrice) 
+                                    img(src='images/minus.svg', alt='')
                         div(class='price') #{product.price} €
         script(type="module", src='/script/shoppingBag.js')
         script(type="module", src='/script/main.js')

@@ -20,8 +20,11 @@ app.get('/', function(req, res) {
 
     let sql = "SELECT * FROM product"
 
-    let count = calculateCount(req)
-    let totalAmount = calculateTotalAmount(req)
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip)
+
+    let count = calculateCount(productList)
+    let totalAmount = calculateTotalAmount(productList)
 
     connection.query(sql, function(err, result) {
         if (err) throw err;
@@ -80,22 +83,16 @@ app.get('/shoppingcard', (req, res) => {
             }
         }
     ];
-
-    let ids = groupIdsFromProducts(req)
-    let count = calculateCount(req)
-    let totalAmount = calculateTotalAmount(req)
-
-    if (ids.length > 0) {
-        let sql = "SELECT * FROM product WHERE ID IN (" + ids + ")"
-        connection.query(sql, function(err, result) {
-            if (err) throw err;
-
-            res.render('shoppingcard', { title: 'Warenkorb', products: result, count: count, totalAmount: totalAmount });
-        });
-    } else {
-        const title = 'Ihr Warenkorb ist leer.'
-        res.render('shoppingcard', { title: title, products: [], count: count, totalAmount: totalAmount });
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip)
+    let groupedProducts = groupProductsByID(productList)
+    let count = calculateCount(productList)
+    let totalAmount = calculateTotalAmount(productList)
+    let title = 'Warenkorb'
+    if (groupProductsByID.length === 0) {
+        title = 'Ihr Warenkorb ist leer.'
     }
+    res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
 })
 
 app.get('/shoppingcard/add', (req, res) => {
@@ -115,7 +112,7 @@ app.get('/shoppingcard/add', (req, res) => {
         shoppingBagCache.set(ip, productList, 10000);
     }
     let count = shoppingBagCache.get(ip).length
-    let totalAmount = calculateTotalAmount(req)
+    let totalAmount = calculateTotalAmount(shoppingBagCache.get(ip))
 
     let sql = "SELECT * FROM product"
 
@@ -130,25 +127,42 @@ app.get('/shoppingcard/delete', (req, res) => {
     let productID = req.query.id
     let ip = req.connection.remoteAddress
     let productList = shoppingBagCache.get(ip);
+    let filtertProducts = filterProdcutsByID(productList, productID)
 
-    console.log(productList)
-
-    productList.forEach((element, index) => {
-        if (element.id == productID) {
-            productList.splice(index, 1)
-            shoppingBagCache.set(ip, productList, 10000);
-        }
-    });
-
-    let newProductList = shoppingBagCache.get(ip)
-    let count = newProductList.length
-    let totalAmount = calculateTotalAmount(req)
+    shoppingBagCache.set(ip, filtertProducts);
+    let groupedProducts = groupProductsByID(filtertProducts)
+    let count = calculateCount(productList)
+    let totalAmount = calculateTotalAmount(productList)
     let title = 'Warenkorb'
 
     if (count == 0) {
         title = 'Ihr Warenkorb ist leer.'
     }
-    res.render('shoppingcard', { title: title, products: newProductList, count: count, totalAmount: totalAmount });
+    res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
+})
+
+app.get('/shoppingcard/addInBag', (req, res) => {
+    let productID = req.query.id
+    let originalProductPrice = req.query.originalPrice
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip);
+    let groupedProducts = groupProductsByID(productList)
+
+    console.log(groupedProducts)
+
+    groupedProducts.forEach((element, index) => {
+        if (element.id == productID) {
+            element.count++;
+            element.price = (element.count * parseFloat(originalProductPrice))
+        }
+    });
+    productList.push({ 'id': productID, 'price': originalProductPrice })
+    shoppingBagCache.set(ip, productList);
+
+    let totalAmount = calculateTotalAmount(productList)
+    let count = calculateCount(productList)
+
+    res.render('shoppingcard', { title: 'Warenkorb', products: groupedProducts, count: count, totalAmount: totalAmount });
 })
 
 app.post('/register/submit', function(req, res) {
@@ -163,7 +177,6 @@ app.post('/register/submit', function(req, res) {
 
     connection.query(sql, function(err, result) {
         if (err) throw err;
-        console.log("user-record inserted");
     });
     res.redirect('/login');
 });
@@ -205,9 +218,7 @@ const PORT = process.env.PORT || 5500;
 
 app.listen(PORT, () => console.log('Server started'));
 
-function calculateTotalAmount(req) {
-    let ip = req.connection.remoteAddress
-    let productList = shoppingBagCache.get(ip)
+function calculateTotalAmount(productList) {
     let totalAmount = 0;
 
     if (typeof productList !== 'undefined') {
@@ -218,9 +229,7 @@ function calculateTotalAmount(req) {
     return String(Number(totalAmount).toFixed(2))
 }
 
-function calculateCount(req) {
-    let ip = req.connection.remoteAddress
-    let productList = shoppingBagCache.get(ip)
+function calculateCount(productList) {
     let count = 0;
 
     if (typeof productList !== 'undefined') {
@@ -229,17 +238,56 @@ function calculateCount(req) {
     return count;
 }
 
-function groupIdsFromProducts(req) {
-    let ids = []
-    let ip = req.connection.remoteAddress
-    let productList = shoppingBagCache.get(ip)
+function calculateGroupedCount(groupedProductList) {
+    let count = 0;
+
+    if (typeof groupedProductList !== 'undefined') {
+        groupedProductList.forEach(element => {
+            count += element.count;
+        });
+    }
+    return count;
+}
+
+function groupProductsByID(productList) {
+    let groupedProducts = []
 
     if (typeof productList !== 'undefined') {
         productList.forEach(element => {
-            if (!ids.includes(element.id)) {
-                ids.push(element.id)
+            let found = false;
+            element.count = 1
+            element.originalPrice = element.price
+
+            for (let i = 0; i < groupedProducts.length; i++) {
+                let idGroup = groupedProducts[i];
+
+                console.log("Gruppe : " + idGroup)
+
+                if (idGroup.id === element.id) {
+                    idGroup.count++;
+                    console.log("WTF : " + element.originalPrice)
+                    idGroup.price = (idGroup.count * parseFloat(element.originalPrice))
+                    found = true;
+                    break;
+                }
             }
+            if (!found) {
+                groupedProducts.push(element)
+            }
+            console.log("Produkt : " + element)
+            console.log(groupedProducts)
         });
     }
-    return ids;
+    console.log(groupedProducts)
+    return groupedProducts;
+}
+
+function filterProdcutsByID(productList, productID) {
+    productList.forEach((element, index) => {
+        if (element.id == productID) {
+            productList.splice(index, 1)
+            return filterProdcutsByID(productList, productID)
+        }
+    });
+    return productList;
 }

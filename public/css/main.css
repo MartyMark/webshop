@@ -83,6 +83,10 @@ body {
     text-decoration: none;
 }
 
+.cart a:hover {
+    opacity: 0.7;
+}
+
 #totalAmount {
     margin-left: 10px;
     margin-bottom: 4px;
