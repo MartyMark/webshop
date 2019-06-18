@@ -3,7 +3,6 @@ html
     head
         title Einkaufswagen
         link(rel='stylesheet', href='/css/shoppingcard.css')
-        link(rel='stylesheet', href='/css/main.css')
     body
         div(class='main')
             div(class='topbar')
@@ -15,29 +14,30 @@ html
                         a(id='registerBtn', href='/register') Register
                     div(id="cartContainer" class='cart')
                         img(id="cartImage" src='images/shoppingcart.png')
-                        a(id='productCount') #{count}
+                        a(id='productTotalCount') #{count}
                         a(id='totalAmount') #{totalAmount} €
             div(class='shopping-cart')
-                div(class='title') Shopping Bag
-                each item in items
+                div(class='title') #{title}
+                each product in products
                     div(class='item')
-                        div(class='buttons')
-                            span(class='delete-btn')
-                                img(src='images/delete-icn.svg')
+                        div(class='delete-btn', type='button', name='button')
+                            a(href='/shoppingcard/delete?id=' + product.id) 
+                                img(id="deleteBtn" src='images/cross.png')
                         div(class='image')
-                            img(src=item.imagePath, alt='')
+                            img(src=product.image_path, alt='')
                         div(class='description') 
-                            span #{item.description.rowTop}
-                            span #{item.description.rowMiddle}
-                            span #{item.description.rowBottom}
+                            spam #{product.name} 
+                            span Noch #{product.stock} auf Lager
                         div(class='quantity')
                             button(class='plus-btn', type='button', name='button')
-                                img(src='images/plus.svg', alt='')
+                                a(href='/shoppingcard/addInBag?id=' + product.id+'&originalPrice=' + product.originalPrice) 
+                                    img(src='images/plus.svg', alt='')
                             
-                            input(type='text', name='name', value='1')
+                            spam(id='productCount') #{product.count}
                             
                             button(class='minus-btn', type='button', name='button')
-                                img(src='images/minus.svg', alt='')
-                        div(class='price') #{item.price}
+                                a(href='/shoppingcard/reduceInBag?id=' + product.id +'&price=' + product.originalPrice) 
+                                    img(src='images/minus.svg', alt='')
+                        div(class='price') #{product.price} €
         script(type="module", src='/script/shoppingBag.js')
         script(type="module", src='/script/main.js')

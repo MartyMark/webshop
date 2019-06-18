@@ -11,7 +11,7 @@ function clickOnCart() {
 
 function mouseOverCart() {
     let cartImage = document.getElementById('cartImage')
-    let productCount = document.getElementById('productCount')
+    let productCount = document.getElementById('productTotalCount')
     let totalAmount = document.getElementById('totalAmount')
 
     cartImage.style.opacity = 0.7
@@ -21,7 +21,7 @@ function mouseOverCart() {
 
 function mouseOutCart() {
     let cartImage = document.getElementById('cartImage')
-    let productCount = document.getElementById('productCount')
+    let productCount = document.getElementById('productTotalCount')
     let totalAmount = document.getElementById('totalAmount')
 
     cartImage.style.opacity = 1
