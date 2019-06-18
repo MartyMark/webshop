@@ -1,8 +1,28 @@
 doctype html
-html
+html 
     head
-        title Mein Konto
-        link(rel='stylesheet', href='/css/details.css')
+        title Simple Web Shop
+        link(rel='stylesheet', href='/css/main.css')
     body
-        div(class='')
-        
+        div(class='main')
+            div(class='topbar')
+            div(class='iconBar')
+                div(class='container')
+                    div(class='login_register')
+                        img(id='homeBtn', src='images/home.png') 
+                        a(id='loginBtn', href='/login') Login
+                        a(id='registerBtn', href='/register') Register
+            div(class='header')
+                div(class='container')
+            div(class='welconme_text')
+                div(class='container')
+                    h1 Mein Konto
+            div(class='product')
+                div(class='container')
+                    div(class='product_section_title') 42
+    script(type="module", src='/script/main.js')
+    
+
+
+
+
