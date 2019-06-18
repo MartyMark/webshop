@@ -83,13 +83,17 @@ app.get('/shoppingcard', (req, res) => {
             }
         }
     ];
+
     let ip = req.connection.remoteAddress
     let productList = shoppingBagCache.get(ip)
+
     let groupedProducts = groupProductsByID(productList)
+
     let count = calculateCount(productList)
     let totalAmount = calculateTotalAmount(productList)
     let title = 'Warenkorb'
-    if (groupProductsByID.length === 0) {
+
+    if (groupedProducts.length == 0) {
         title = 'Ihr Warenkorb ist leer.'
     }
     res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
@@ -103,13 +107,14 @@ app.get('/shoppingcard/add', (req, res) => {
     let ip = req.connection.remoteAddress
 
     let productList = shoppingBagCache.get(ip);
+
     let product = { 'id': productId, 'price': productPrice }
 
     if (typeof productList === 'undefined') {
-        shoppingBagCache.set(ip, [product], 10000);
+        shoppingBagCache.set(ip, [product]);
     } else {
         productList.push(product)
-        shoppingBagCache.set(ip, productList, 10000);
+        shoppingBagCache.set(ip, productList);
     }
     let count = shoppingBagCache.get(ip).length
     let totalAmount = calculateTotalAmount(shoppingBagCache.get(ip))
@@ -145,24 +150,44 @@ app.get('/shoppingcard/addInBag', (req, res) => {
     let productID = req.query.id
     let originalProductPrice = req.query.originalPrice
     let ip = req.connection.remoteAddress
+
     let productList = shoppingBagCache.get(ip);
-    let groupedProducts = groupProductsByID(productList)
-
-    console.log(groupedProducts)
-
-    groupedProducts.forEach((element, index) => {
-        if (element.id == productID) {
-            element.count++;
-            element.price = (element.count * parseFloat(originalProductPrice))
-        }
-    });
     productList.push({ 'id': productID, 'price': originalProductPrice })
     shoppingBagCache.set(ip, productList);
 
+
+    let groupedProducts = groupProductsByID(productList)
     let totalAmount = calculateTotalAmount(productList)
     let count = calculateCount(productList)
 
     res.render('shoppingcard', { title: 'Warenkorb', products: groupedProducts, count: count, totalAmount: totalAmount });
+})
+
+app.get('/shoppingcard/reduceInBag', (req, res) => {
+    let productID = req.query.id
+    let originalProductPrice = req.query.originalPrice
+    let ip = req.connection.remoteAddress
+
+    let productList = shoppingBagCache.get(ip);
+    for (let i = 0; i < productList.length; i++) {
+        let element = productList[i]
+        if (element.id === productID) {
+            productList.splice(i, 1)
+            break
+        }
+    }
+    shoppingBagCache.set(ip, productList);
+
+    let groupedProducts = groupProductsByID(productList)
+
+    let totalAmount = calculateTotalAmount(productList)
+    let count = calculateCount(productList)
+
+    let title = 'Warenkorb'
+    if (groupedProducts.length == 0) {
+        title = 'Ihr Warenkorb ist leer.'
+    }
+    res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
 })
 
 app.post('/register/submit', function(req, res) {
@@ -238,47 +263,34 @@ function calculateCount(productList) {
     return count;
 }
 
-function calculateGroupedCount(groupedProductList) {
-    let count = 0;
-
-    if (typeof groupedProductList !== 'undefined') {
-        groupedProductList.forEach(element => {
-            count += element.count;
-        });
-    }
-    return count;
-}
-
-function groupProductsByID(productList) {
+function groupProductsByID(products) {
     let groupedProducts = []
 
-    if (typeof productList !== 'undefined') {
-        productList.forEach(element => {
+    if (typeof products !== 'undefined') {
+        products.forEach(element => {
             let found = false;
-            element.count = 1
-            element.originalPrice = element.price
 
             for (let i = 0; i < groupedProducts.length; i++) {
                 let idGroup = groupedProducts[i];
 
-                console.log("Gruppe : " + idGroup)
-
                 if (idGroup.id === element.id) {
                     idGroup.count++;
-                    console.log("WTF : " + element.originalPrice)
-                    idGroup.price = (idGroup.count * parseFloat(element.originalPrice))
+                    idGroup.price = (idGroup.count * parseFloat(element.price))
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                groupedProducts.push(element)
+                let obj = {
+                    'id': element.id,
+                    'price': element.price,
+                    'count': 1,
+                    'originalPrice': element.price
+                }
+                groupedProducts.push(obj)
             }
-            console.log("Produkt : " + element)
-            console.log(groupedProducts)
         });
     }
-    console.log(groupedProducts)
     return groupedProducts;
 }
 

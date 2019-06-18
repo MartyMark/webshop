@@ -197,3 +197,13 @@ button:hover {
     color: #43484D;
     font-weight: 300;
 }
+
+#purchase-btn {
+    width: 200px;
+    height: 40px;
+    float: right;
+    background-color: #fcc508;
+    color: #cc3333;
+    font-size: 15px;
+    font-weight: bold;
+}
