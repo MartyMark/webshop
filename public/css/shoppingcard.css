@@ -3,6 +3,92 @@
     padding: 0;
 }
 
+.main {
+    width: 100%;
+    height: auto;
+    background-color: gray;
+    min-height: 942px;
+    margin: 0 auto;
+}
+
+.container {
+    width: 1000px;
+    height: auto;
+    min-height: 50px;
+    /*ACHTUNG!!!*/
+    margin: 0 auto;
+}
+
+.topbar {
+    width: 100%;
+    height: 4px;
+    background-color: #fcc508;
+}
+
+.iconBar {
+    width: 100%;
+    height: 33px;
+    background-color: #2a2b2c;
+    float: left;
+}
+
+.login_register {
+    height: auto;
+    float: left;
+}
+
+.login_register a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    float: left;
+    line-height: 33px;
+    width: auto;
+    margin-right: 8px;
+    margin-left: 4px;
+}
+
+.login_register a:hover {
+    opacity: 0.7;
+}
+
+#loginBtn {
+    margin-left: 14px;
+}
+
+.login_register img {
+    margin-top: 3px;
+    cursor: pointer;
+    float: left;
+}
+
+.cart {
+    width: 112px;
+    height: 50px;
+    background-color: #fcc508;
+    float: right;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+}
+
+.cart a {
+    color: #cc3333;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#totalAmount {
+    margin-left: 10px;
+    margin-bottom: 4px;
+}
+
+.cart img {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
 body {
     width: 100%;
     height: 100%;
@@ -12,14 +98,11 @@ body {
 }
 
 .shopping-cart {
-    width: 750px;
-    height: 423px;
+    width: 1000px;
+    height: auto;
     margin: 80px auto;
     background: #FFFFFF;
-    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.10);
     border-radius: 6px;
-    display: flex;
-    flex-direction: column;
 }
 
 .title {
@@ -27,13 +110,13 @@ body {
     border-bottom: 1px solid #E1E8EE;
     padding: 20px 30px;
     color: #5E6977;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 400;
 }
 
 .item {
     padding: 20px 30px;
-    height: 120px;
+    height: 150px;
     display: flex;
 }
 
@@ -42,63 +125,36 @@ body {
     border-bottom: 1px solid #E1E8EE;
 }
 
-.buttons {
-    position: relative;
-    padding-top: 30px;
+.delete-btn {
+    padding-top: 60px;
     margin-right: 60px;
-}
-
-.delete-btn,
-.like-btn {
     display: inline-block;
     Cursor: pointer;
-}
-
-.delete-btn {
-    width: 18px;
-    height: 17px;
     background: url(&quot;delete-icn.svg&quot;) no-repeat center;
 }
 
-.like-btn {
-    position: absolute;
-    top: 9px;
-    left: 15px;
-    background: url('images/twitter-heart.png');
-    width: 60px;
-    height: 60px;
-    background-size: 2900%;
-    background-repeat: no-repeat;
+.delete-btn img {
+    width: 21px;
+    height: 21px;
 }
 
-.is-active {
-    animation-name: animate;
-    animation-duration: .8s;
-    animation-iteration-count: 1;
-    animation-timing-function: steps(28);
-    animation-fill-mode: forwards;
-}
-
-@keyframes animate {
-    0% {
-        background-position: left;
-    }
-    50% {
-        background-position: right;
-    }
-    100% {
-        background-position: right;
-    }
+.delete-btn img:hover {
+    opacity: 0.7;
 }
 
 .image {
     margin-right: 50px;
 }
 
+.image img {
+    width: 150px;
+    height: 150px;
+}
+
 .description {
-    padding-top: 10px;
+    padding-top: 60px;
     margin-right: 60px;
-    width: 115px;
+    width: 160px;
 }
 
 .description span {
@@ -119,21 +175,17 @@ body {
 }
 
 .quantity {
-    padding-top: 20px;
+    padding-top: 60px;
     margin-right: 60px;
+    margin-left: 10px;
 }
 
-.quantity input {
-    -webkit-appearance: none;
-    border: none;
-    text-align: center;
-    width: 32px;
-    font-size: 16px;
-    color: #43484D;
-    font-weight: 300;
+#productCount {
+    margin-left: 17px;
+    margin-right: 17px;
 }
 
-button[class*=btn] {
+button {
     width: 30px;
     height: 30px;
     background-color: #E1E8EE;
@@ -142,50 +194,15 @@ button[class*=btn] {
     cursor: pointer;
 }
 
-.minus-btn img {
-    margin-bottom: 3px;
-}
-
-.plus-btn img {
-    margin-top: 2px;
-}
-
-button:focus,
-input:focus {
-    outline: 0;
+button:hover {
+    opacity: 0.7;
 }
 
 .price {
-    width: 83px;
-    padding-top: 27px;
+    margin-left: 75px;
+    padding-top: 60px;
     text-align: center;
-    font-size: 16px;
+    font-size: 22px;
     color: #43484D;
     font-weight: 300;
-}
-
-@media (max-width: 800px) {
-    .shopping-cart {
-        width: 100%;
-        height: auto;
-        overflow: hidden;
-    }
-    .item {
-        height: auto;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .image img {
-        width: 50%;
-    }
-    .image,
-    .quantity,
-    .description {
-        width: 100%;
-        text-align: center;
-        margin: 6px 0;
-    }
-    .buttons {
-        margin-right: 20px;
-    }
 }

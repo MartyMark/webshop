@@ -44,20 +44,20 @@ html
                     each product in products
                         div(class='productCard')
                             div(class='productImg')
-                                img(src=product.IMAGE_PATH)
+                                img(src=product.image_path)
                             div(class='productText')
-                                h4 #{product.NAME}
+                                h4 #{product.name}
                             div(class='starIcon')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_black.png')
-                            div(class='productDesc') #{product.DESCRIPTION}
+                            div(class='productDesc') #{product.description}
                             div(class='productPrice')
-                                div(class='price') #{product.PRICE}
+                                div(class='price') #{product.price}
                             div(class='button')
-                               a(id='adToCard', href='/shoppingcard/add?id=' + product.ID +'&price=' + product.PRICE) In den Warenkorb
+                               a(id='adToCard', href='/shoppingcard/add?id=' + product.id +'&price=' + product.price) In den Warenkorb
     script(type="module", src='/script/main.js')
     
 

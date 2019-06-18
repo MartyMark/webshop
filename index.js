@@ -53,7 +53,7 @@ app.get('/details', (req, res) => {
 
 app.get('/shoppingcard', (req, res) => {
     let items = [{
-            imagePath: 'images/item-1.png',
+            image_path: 'images/item-1.png',
             price: '10,00',
             description: {
                 rowTop: 'rowTop_1',
@@ -62,7 +62,7 @@ app.get('/shoppingcard', (req, res) => {
             }
         },
         {
-            imagePath: 'images/item-1.png',
+            image_path: 'images/item-1.png',
             price: '20,00',
             description: {
                 rowTop: 'rowTop_2',
@@ -71,7 +71,7 @@ app.get('/shoppingcard', (req, res) => {
             }
         },
         {
-            imagePath: 'images/item-1.png',
+            image_path: 'images/item-1.png',
             price: '30,00',
             description: {
                 rowTop: 'rowTop_3',
@@ -80,13 +80,26 @@ app.get('/shoppingcard', (req, res) => {
             }
         }
     ];
+
+    let ids = groupIdsFromProducts(req)
     let count = calculateCount(req)
     let totalAmount = calculateTotalAmount(req)
 
-    res.render('shoppingcard', { items: items, count: count, totalAmount: totalAmount });
+    if (ids.length > 0) {
+        let sql = "SELECT * FROM product WHERE ID IN (" + ids + ")"
+        connection.query(sql, function(err, result) {
+            if (err) throw err;
+
+            res.render('shoppingcard', { title: 'Warenkorb', products: result, count: count, totalAmount: totalAmount });
+        });
+    } else {
+        const title = 'Ihr Warenkorb ist leer.'
+        res.render('shoppingcard', { title: title, products: [], count: count, totalAmount: totalAmount });
+    }
 })
 
 app.get('/shoppingcard/add', (req, res) => {
+    const sectionTitle = 'SECTION_TITLE_TEXT_42';
     let productId = req.query.id
     let productPrice = req.query.price
 
@@ -104,7 +117,38 @@ app.get('/shoppingcard/add', (req, res) => {
     let count = shoppingBagCache.get(ip).length
     let totalAmount = calculateTotalAmount(req)
 
-    //res.render('index', { count: count, totalAmount: totalAmount })
+    let sql = "SELECT * FROM product"
+
+    connection.query(sql, function(err, result) {
+        if (err) throw err;
+
+        res.render('index', { sectionTitle: sectionTitle, products: result, count: count, totalAmount: totalAmount })
+    });
+})
+
+app.get('/shoppingcard/delete', (req, res) => {
+    let productID = req.query.id
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip);
+
+    console.log(productList)
+
+    productList.forEach((element, index) => {
+        if (element.id == productID) {
+            productList.splice(index, 1)
+            shoppingBagCache.set(ip, productList, 10000);
+        }
+    });
+
+    let newProductList = shoppingBagCache.get(ip)
+    let count = newProductList.length
+    let totalAmount = calculateTotalAmount(req)
+    let title = 'Warenkorb'
+
+    if (count == 0) {
+        title = 'Ihr Warenkorb ist leer.'
+    }
+    res.render('shoppingcard', { title: title, products: newProductList, count: count, totalAmount: totalAmount });
 })
 
 app.post('/register/submit', function(req, res) {
@@ -183,4 +227,19 @@ function calculateCount(req) {
         count = productList.length
     }
     return count;
+}
+
+function groupIdsFromProducts(req) {
+    let ids = []
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip)
+
+    if (typeof productList !== 'undefined') {
+        productList.forEach(element => {
+            if (!ids.includes(element.id)) {
+                ids.push(element.id)
+            }
+        });
+    }
+    return ids;
 }
