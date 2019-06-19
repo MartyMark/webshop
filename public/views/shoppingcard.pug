@@ -39,6 +39,7 @@ html
                                 a(href='/shoppingcard/reduceInBag?id=' + product.id +'&originalPrice=' + product.originalPrice) 
                                     img(src='images/minus.svg', alt='')
                         div(class='price') #{product.price} €
-                button(id='purchase-btn' class='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
+                a(href='/shoppingcard/purchase') 
+                    button(id='purchase-btn' class='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
         script(type="module", src='/script/shoppingBag.js')
         script(type="module", src='/script/main.js')

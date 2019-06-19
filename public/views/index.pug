@@ -53,11 +53,11 @@ html
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_black.png')
-                            div(class='productDesc') #{product.description}
+                            div(class='productDesc') Noch #{product.stock} auf Lager
                             div(class='productPrice')
                                 div(class='price') #{product.price}
                             div(class='button')
-                               a(id='adToCard', href='/shoppingcard/add?id=' + product.id +'&price=' + product.price) In den Warenkorb
+                               a(id='adToCard', href='/shoppingcard/add?id=' + product.id +'&price=' + product.price + '&name=' + product.name + '&stock=' + product.stock) In den Warenkorb
     script(type="module", src='/script/main.js')
     
 

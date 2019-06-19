@@ -14,16 +14,16 @@ app.set('views', path.join(__dirname, 'public/views'))
 app.set('view engine', 'pug');
 
 const shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
+const userCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
+const sectionTitle = 'SECTION_TITLE_TEXT_42';
 
 app.get('/', function(req, res) {
-    const sectionTitle = 'SECTION_TITLE_TEXT_42';
-
     let sql = "SELECT * FROM product"
 
     let ip = req.connection.remoteAddress
     let productList = shoppingBagCache.get(ip)
 
-    let count = calculateCount(productList)
+    let count = calculateTotalProductCount(productList)
     let totalAmount = calculateTotalAmount(productList)
 
     connection.query(sql, function(err, result) {
@@ -89,26 +89,33 @@ app.get('/shoppingcard', (req, res) => {
 
     let groupedProducts = groupProductsByID(productList)
 
-    let count = calculateCount(productList)
+    let count = calculateTotalProductCount(productList)
     let totalAmount = calculateTotalAmount(productList)
-    let title = 'Warenkorb'
+    let title = getTitle(count)
 
-    if (groupedProducts.length == 0) {
-        title = 'Ihr Warenkorb ist leer.'
-    }
     res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
 })
 
+function getTitle(productCount) {
+    let title = 'Warenkorb'
+
+    if (productCount == 0) {
+        title = 'Ihr Warenkorb ist leer.'
+    }
+    return title
+}
+
 app.get('/shoppingcard/add', (req, res) => {
-    const sectionTitle = 'SECTION_TITLE_TEXT_42';
     let productId = req.query.id
     let productPrice = req.query.price
+    let productStock = req.query.stock
+    let productName = req.query.name
 
     let ip = req.connection.remoteAddress
 
     let productList = shoppingBagCache.get(ip);
 
-    let product = { 'id': productId, 'price': productPrice }
+    let product = { 'id': productId, 'price': productPrice, 'stock': productStock, 'name': productName }
 
     if (typeof productList === 'undefined') {
         shoppingBagCache.set(ip, [product]);
@@ -116,16 +123,7 @@ app.get('/shoppingcard/add', (req, res) => {
         productList.push(product)
         shoppingBagCache.set(ip, productList);
     }
-    let count = shoppingBagCache.get(ip).length
-    let totalAmount = calculateTotalAmount(shoppingBagCache.get(ip))
-
-    let sql = "SELECT * FROM product"
-
-    connection.query(sql, function(err, result) {
-        if (err) throw err;
-
-        res.render('index', { sectionTitle: sectionTitle, products: result, count: count, totalAmount: totalAmount })
-    });
+    refreshMain(res);
 })
 
 app.get('/shoppingcard/delete', (req, res) => {
@@ -135,15 +133,7 @@ app.get('/shoppingcard/delete', (req, res) => {
     let filtertProducts = filterProdcutsByID(productList, productID)
 
     shoppingBagCache.set(ip, filtertProducts);
-    let groupedProducts = groupProductsByID(filtertProducts)
-    let count = calculateCount(productList)
-    let totalAmount = calculateTotalAmount(productList)
-    let title = 'Warenkorb'
-
-    if (count == 0) {
-        title = 'Ihr Warenkorb ist leer.'
-    }
-    res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
+    refreshShoppingCard(res)
 })
 
 app.get('/shoppingcard/addInBag', (req, res) => {
@@ -154,13 +144,7 @@ app.get('/shoppingcard/addInBag', (req, res) => {
     let productList = shoppingBagCache.get(ip);
     productList.push({ 'id': productID, 'price': originalProductPrice })
     shoppingBagCache.set(ip, productList);
-
-
-    let groupedProducts = groupProductsByID(productList)
-    let totalAmount = calculateTotalAmount(productList)
-    let count = calculateCount(productList)
-
-    res.render('shoppingcard', { title: 'Warenkorb', products: groupedProducts, count: count, totalAmount: totalAmount });
+    refreshShoppingCard(res)
 })
 
 app.get('/shoppingcard/reduceInBag', (req, res) => {
@@ -177,21 +161,47 @@ app.get('/shoppingcard/reduceInBag', (req, res) => {
         }
     }
     shoppingBagCache.set(ip, productList);
-
-    let groupedProducts = groupProductsByID(productList)
-
-    let totalAmount = calculateTotalAmount(productList)
-    let count = calculateCount(productList)
-
-    let title = 'Warenkorb'
-    if (groupedProducts.length == 0) {
-        title = 'Ihr Warenkorb ist leer.'
-    }
-    res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
+    refreshShoppingCard(res)
 })
 
+app.get('/shoppingcard/purchase', (req, res) => {
+    let ip = req.connection.remoteAddress
+    let productList = shoppingBagCache.get(ip);
+    let groupedProducts = groupProductsByID(productList)
+
+    let userId = userCache.get(ip);
+
+    updateDB(groupedProducts, userId)
+    shoppingBagCache.set(ip, []);
+
+    refreshMain(res);
+})
+
+async function updateDB(groupedProducts, userId) {
+    for (let i = 0; i < groupedProducts.length; i++) {
+        let element = groupedProducts[i]
+        let setStock = "UPDATE product SET stock = " + (Number(element.stock) - Number(element.count)) + " WHERE ID = " + element.id
+        let addBuyedProduct = "INSERT INTO buyedProducts(userid, productId) VALUES (" + userId + "," + element.id + ")"
+
+        if (typeof userId !== 'undefined' && userId !== null) {
+            console.log(addBuyedProduct)
+            console.log(userId)
+            await update(addBuyedProduct)
+        }
+        await update(setStock)
+    }
+}
+
+function update(sql) {
+    connection.query(sql, function(err, result) {
+        if (err) throw err;
+
+        console.log(result)
+    });
+}
+
 app.post('/register/submit', function(req, res) {
-    let sql = "INSERT INTO user (vorname, name, street, zipcode, email, password) VALUES (\"#FIRSTNAME#\",\"#LASTNAME#\",\"#STREET#\",\"#PLZ#\",\"#EMAIL#\",\"#PASSWORD#\")";
+    let sql = "INSERT INTO user (surname, name, street, zipcode, email, password) VALUES (\"#FIRSTNAME#\",\"#LASTNAME#\",\"#STREET#\",\"#PLZ#\",\"#EMAIL#\",\"#PASSWORD#\")";
 
     sql.replace('#FIRSTNAME#', req.body.firstName);
     sql.replace('#LASTNAME#', req.body.lastName);
@@ -209,6 +219,7 @@ app.post('/register/submit', function(req, res) {
 app.post('/login/submit', (req, res) => {
     var username = req.body.username;
     var password = req.body.psw;
+    let ip = req.connection.remoteAddress
 
     var sql = "SELECT * FROM user WHERE name = '" + username + "' and password = '" + password + "'";
 
@@ -219,6 +230,8 @@ app.post('/login/submit', (req, res) => {
             res.redirect('/login');
             return;
         }
+        userCache.set(ip, result[0].id);
+
         res.redirect('/index/' + username);
     });
 });
@@ -243,6 +256,14 @@ const PORT = process.env.PORT || 5500;
 
 app.listen(PORT, () => console.log('Server started'));
 
+function refreshMain(res) {
+    res.redirect('/');
+}
+
+function refreshShoppingCard(res) {
+    res.redirect('/shoppingcard');
+}
+
 function calculateTotalAmount(productList) {
     let totalAmount = 0;
 
@@ -254,7 +275,7 @@ function calculateTotalAmount(productList) {
     return String(Number(totalAmount).toFixed(2))
 }
 
-function calculateCount(productList) {
+function calculateTotalProductCount(productList) {
     let count = 0;
 
     if (typeof productList !== 'undefined') {
@@ -285,7 +306,9 @@ function groupProductsByID(products) {
                     'id': element.id,
                     'price': element.price,
                     'count': 1,
-                    'originalPrice': element.price
+                    'originalPrice': element.price,
+                    'stock': element.stock,
+                    'name': element.name
                 }
                 groupedProducts.push(obj)
             }
