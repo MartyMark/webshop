@@ -36,8 +36,10 @@ html
                             spam(id='productCount') #{product.count}
                             
                             button(class='minus-btn', type='button', name='button')
-                                a(href='/shoppingcard/reduceInBag?id=' + product.id +'&price=' + product.originalPrice) 
+                                a(href='/shoppingcard/reduceInBag?id=' + product.id +'&originalPrice=' + product.originalPrice) 
                                     img(src='images/minus.svg', alt='')
                         div(class='price') #{product.price} €
+                a(href='/shoppingcard/purchase') 
+                    button(id='purchase-btn' class='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
         script(type="module", src='/script/shoppingBag.js')
         script(type="module", src='/script/main.js')
