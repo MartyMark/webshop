@@ -236,6 +236,17 @@ app.post('/login/submit', (req, res) => {
     });
 });
 
+app.get('/productInfo', (req, res) => {
+    let productID = req.query.id
+    let sql = "select * from product where id =" + productID
+
+    connection.query(sql, function(err, result) {
+        if (err) throw err;
+
+        res.render('productInfo', { product: result[0] });
+    });
+})
+
 var connection = mysql.createConnection({
     //Properties
     host: 'localhost',
