@@ -18,24 +18,29 @@ html
             .row()
                 .grid()
                     .grid-inner()
-                        .grid-inner-element() 
+                        .grid-inner-element()
                             strong Persönliche Daten
                             |
                             hr(style='border-color: #fcc508;')
                             |
-                            | #{personenDaten.salutation} #{personenDaten.lastName} #{personenDaten.firstName}
-                            br
-                            | #{personenDaten.birthDate}
-                            br
-                            | #{personenDaten.email}
-
+                            .boxText()
+                                | #{personenDaten.salutation} #{personenDaten.lastName} #{personenDaten.firstName}
+                                br
+                                | #{personenDaten.birthDate}
+                                br
+                                | #{personenDaten.email}
+                            .grid-inner-element-button()
+                                a(id='change', href='/details') Ändern
                     .grid-inner()
                         .grid-inner-element()
                             strong Zahlungsarten
                             |
                             hr(style='border-color: #fcc508;')
                             |
-                            | #{personenDaten.payMethod}
+                            .boxText()
+                                | #{personenDaten.payMethod}
+                            .grid-inner-element-button()
+                                a(id='change', href='/details') Ändern
                 .grid()
                     .grid-inner()
                         .grid-inner-element() 
@@ -43,23 +48,27 @@ html
                             |
                             hr(style='border-color: #fcc508;')
                             |
-                            | #{personenDaten.invoiceAddress.salutation} #{personenDaten.invoiceAddress.lastName} #{personenDaten.invoiceAddress.firstName}
-                            br
-                            | #{personenDaten.invoiceAddress.street}, #{personenDaten.invoiceAddress.houseNumber}
-                            br
-                            | #{personenDaten.invoiceAddress.countryCode}, #{personenDaten.invoiceAddress.plz}, #{personenDaten.invoiceAddress.town}
+                            .boxText()
+                                | #{personenDaten.invoiceAddress.salutation} #{personenDaten.invoiceAddress.lastName} #{personenDaten.invoiceAddress.firstName}
+                                br
+                                | #{personenDaten.invoiceAddress.street}, #{personenDaten.invoiceAddress.houseNumber}
+                                br
+                                | #{personenDaten.invoiceAddress.countryCode}, #{personenDaten.invoiceAddress.plz}, #{personenDaten.invoiceAddress.town}
+                            .grid-inner-element-button()
+                                a(id='change', href='/details') Ändern
                     .grid-inner()
-                        .grid-inner-element() 
+                        .grid-inner-element()
                             unless personenDaten.sameAddress
                                 strong Lieferadresse
                                 |
                                 hr(style='border-color: #fcc508;')
                                 |
-                                | #{personenDaten.shippingAddress.salutation} #{personenDaten.shippingAddress.lastName} #{personenDaten.shippingAddress.firstName}
-                                br
-                                | #{personenDaten.shippingAddress.street}, #{personenDaten.shippingAddress.houseNumber}
-                                br
-                                | #{personenDaten.shippingAddress.countryCode}, #{personenDaten.shippingAddress.plz}, #{personenDaten.shippingAddress.town}
+                                .boxText()
+                                    | #{personenDaten.shippingAddress.salutation} #{personenDaten.shippingAddress.lastName} #{personenDaten.shippingAddress.firstName}
+                                    br
+                                    | #{personenDaten.shippingAddress.street}, #{personenDaten.shippingAddress.houseNumber}
+                                    br
+                                    | #{personenDaten.shippingAddress.countryCode}, #{personenDaten.shippingAddress.plz}, #{personenDaten.shippingAddress.town}
                             else
                                 strong Lieferadresse
                                 |
