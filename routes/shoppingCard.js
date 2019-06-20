@@ -163,7 +163,7 @@ function _updateDB(groupedProducts, userId) {
 }
 
 function _update(sql) {
-    connection.query(sql, function (err, result) {
+    global.connection.query(sql, function (err, result) {
         if (err) throw err;
 
         console.log(result)

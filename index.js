@@ -15,7 +15,7 @@ const register = require(path.join(__dirname, 'routes', 'register'));
 const login = require(path.join(__dirname, 'routes', 'login'));
 const product = require(path.join(__dirname, 'routes', 'product'));
 const main = require(path.join(__dirname, 'routes', 'main'));
-
+const PORT = process.env.PORT || 5500;
 const app = express();
 
 app.use(express.static('public'))
@@ -25,14 +25,6 @@ app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'images', 
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug');
-
-/**
- * Cache-Init
- */
-global.shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
-global.userCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
-
-const PORT = process.env.PORT || 5500;
 
 let connection = mysql.createConnection({
     host: 'localhost',
@@ -48,6 +40,15 @@ connection.connect(function(error) {
         console.log('Connected');
     }
 });
+
+
+
+/**
+ * Globals
+ */
+global.shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
+global.userCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
+global.connection = connection;
 
 app.get('/', function(req, res) {
     main.load(req, res);
