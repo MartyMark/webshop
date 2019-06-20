@@ -9,6 +9,7 @@ const app = express();
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded())
+app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.set('views', path.join(__dirname, 'public/views'))
 app.set('view engine', 'pug');
@@ -51,7 +52,39 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/details', (req, res) => {
-    res.render('details');
+    let personenDaten = {
+        salutation: 'Herr',
+        lastName: 'Busanny',
+        firstName: 'Tim',
+        birthDate: '11.04.1989',
+        email: 'tim.busanny@gmail.com',
+        invoiceAddress: {
+            salutation: 'Herr',
+            lastName: 'Busanny',
+            firstName: 'Tim',
+            street: 'Königstr.',
+            town: 'Warendorf',
+            plz: '48231',
+            houseNumber: '12',
+            countryCode: 'DE',
+            country: 'Deutschland',
+        },
+        payMethod: 'PayPal',
+        sameAddress: false,
+        shippingAddress: {
+            salutation: 'Herr',
+            lastName: 'Busanny',
+            firstName: 'Tim',
+            street: 'Königstr.',
+            town: 'Warendorf',
+            plz: '48231',
+            houseNumber: '12',
+            countryCode: 'DE',
+            country: 'Deutschland',
+        },
+    }
+
+    res.render('details', { personenDaten: personenDaten });
 });
 
 app.get('/shoppingcard', (req, res) => {
@@ -79,8 +112,7 @@ app.get('/shoppingcard', (req, res) => {
             rowMiddle: 'rowMiddle_3',
             rowBottom: 'rowBottom_3',
         }
-    }
-    ];
+    }];
 
     let ip = req.connection.remoteAddress
     let productList = shoppingBagCache.get(ip)
