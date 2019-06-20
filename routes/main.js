@@ -7,7 +7,7 @@ module.exports.load = function (req, res) {
     let count = _calculateTotalProductCount(productList)
     let totalAmount = _calculateTotalAmount(productList)
 
-    connection.query(sql, function (err, result) {
+    global.connection.query(sql, function (err, result) {
         if (err) throw err;
 
         res.render('index', { sectionTitle: 'SECTION_TITLE_TEXT_42', products: result, count: count, totalAmount: totalAmount })

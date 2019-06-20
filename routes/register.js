@@ -8,7 +8,7 @@ module.exports.submit = function (req, res) {
     sql.replace('#EMAIL#', req.body.email);
     sql.replace('#PASSWORD#', req.body.password);
 
-    connection.query(sql, function (err, result) {
+    global.connection.query(sql, function (err, result) {
         if (err) throw err;
     });
     res.redirect('/login');

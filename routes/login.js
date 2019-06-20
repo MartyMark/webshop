@@ -9,7 +9,7 @@ module.exports.submit = function (req, res) {
 
     var sql = "SELECT * FROM user WHERE name = '" + username + "' and password = '" + password + "'";
 
-    connection.query(sql, function (err, result) {
+    global.connection.query(sql, function (err, result) {
         if (err) throw err;
 
         if (!result.length) {
