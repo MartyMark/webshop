@@ -29,17 +29,19 @@ html
                             span #{product.name} 
                             span Noch #{product.stock} auf Lager
                         .quantity()
-                            .plus-btn(type='button', name='button')
+                            button(class='plus-btn', type='button', name='button')
                                 a(href='/shoppingcard/addInBag?id=' + product.id+'&originalPrice=' + product.originalPrice) 
                                     img(src='images/plus.svg', alt='')
                             
                             span(id='productCount') #{product.count}
                             
-                            .minus-btn(type='button', name='button')
+                            button(class='minus-btn', type='button', name='button')
                                 a(href='/shoppingcard/reduceInBag?id=' + product.id +'&originalPrice=' + product.originalPrice) 
                                     img(src='images/minus.svg', alt='')
                         .price() #{product.price} €
-                a(href='/shoppingcard/purchase') 
-                    button(class='purchase-btn', id='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
+                a(href='/shoppingcard/purchase')
+                    if product
+                        if product.count > 0
+                            button(class='purchase-btn', id='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
         script(type="module", src='/script/shoppingBag.js')
         script(type="module", src='/script/main.js')
