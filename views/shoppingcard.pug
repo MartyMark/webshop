@@ -40,6 +40,8 @@ html
                                     img(src='images/minus.svg', alt='')
                         .price() #{product.price} €
                 a(href='/shoppingcard/purchase') 
-                    button(class='purchase-btn', id='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
+                    if product
+                        if product.count > 0
+                            button(class='purchase-btn', id='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
         script(type="module", src='/script/shoppingBag.js')
         script(type="module", src='/script/main.js')
