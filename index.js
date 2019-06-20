@@ -18,7 +18,7 @@ const shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
 const userCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
 const sectionTitle = 'SECTION_TITLE_TEXT_42';
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     let sql = "SELECT * FROM product"
 
     let ip = req.connection.remoteAddress
@@ -27,14 +27,14 @@ app.get('/', function (req, res) {
     let count = calculateTotalProductCount(productList)
     let totalAmount = calculateTotalAmount(productList)
 
-    connection.query(sql, function (err, result) {
+    connection.query(sql, function(err, result) {
         if (err) throw err;
 
         res.render('index', { sectionTitle: sectionTitle, products: result, count: count, totalAmount: totalAmount })
     });
 });
 
-app.get('/index/:username', function (req, res) {
+app.get('/index/:username', function(req, res) {
     var username = req.params.username;
     //res.render('index', { name: username }, function(err, html) {
     //html.getElementById('loginText').value = username;
@@ -221,14 +221,14 @@ async function updateDB(groupedProducts, userId) {
 }
 
 function update(sql) {
-    connection.query(sql, function (err, result) {
+    connection.query(sql, function(err, result) {
         if (err) throw err;
 
         console.log(result)
     });
 }
 
-app.post('/register/submit', function (req, res) {
+app.post('/register/submit', function(req, res) {
     let sql = "INSERT INTO user (surname, name, street, zipcode, email, password) VALUES (\"#FIRSTNAME#\",\"#LASTNAME#\",\"#STREET#\",\"#PLZ#\",\"#EMAIL#\",\"#PASSWORD#\")";
 
     sql.replace('#FIRSTNAME#', req.body.firstName);
@@ -238,7 +238,7 @@ app.post('/register/submit', function (req, res) {
     sql.replace('#EMAIL#', req.body.email);
     sql.replace('#PASSWORD#', req.body.password);
 
-    connection.query(sql, function (err, result) {
+    connection.query(sql, function(err, result) {
         if (err) throw err;
     });
     res.redirect('/login');
@@ -255,7 +255,7 @@ app.post('/login/submit', (req, res) => {
 
     var sql = "SELECT * FROM user WHERE name = '" + username + "' and password = '" + password + "'";
 
-    connection.query(sql, function (err, result) {
+    connection.query(sql, function(err, result) {
         if (err) throw err;
 
         if (!result.length) {
@@ -270,12 +270,24 @@ app.post('/login/submit', (req, res) => {
 
 app.get('/productInfo', (req, res) => {
     let productID = req.query.id
-    let sql = "select * from product where id =" + productID
 
-    connection.query(sql, function (err, result) {
+    let sql = 'select * from product left join commentaries on product.id = commentaries.productid inner join user on user.id = commentaries.userid where product.id =' + productID
+
+    console.log(sql)
+    connection.query(sql, function(err, result) {
         if (err) throw err;
 
-        res.render('productInfo', { product: result[0] });
+        console.log(result)
+
+        let product = { 'id': result.id, 'name': result.name, 'image_path': result.image_path, 'price': result.price, 'stock': result.stock }
+        let commentaries = []
+
+        result.forEach(element => {
+            //let commentarie = { result. }
+        })
+
+        console.log(result)
+            //res.render('productInfo', { product: result[0],  });
     });
 })
 
@@ -287,7 +299,7 @@ var connection = mysql.createConnection({
     database: 'sampledb'
 });
 
-connection.connect(function (error) {
+connection.connect(function(error) {
     if (!error) {
         console.log('Error');
     } else {
