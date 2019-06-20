@@ -50,11 +50,11 @@ global.shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
 global.userCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
 global.connection = connection;
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     main.load(req, res);
 });
 
-app.get('/index/:username', function(req, res) {
+app.get('/index/:username', (req, res) => {
     var username = req.params.username;
     //res.render('index', { name: username }, function(err, html) {
     //html.getElementById('loginText').value = username;
@@ -63,13 +63,21 @@ app.get('/index/:username', function(req, res) {
     res.redirect('/');
 });
 
-app.get('/login', (reg, res) => {
-    login.render('login');
+app.get('/login', (req, res) => {
+    res.render('login')
+});
+
+app.post('/login/submit', (req, res) => {
+    login.submit(req, res);
 });
 
 app.get('/register', (req, res) => {
-    register.render('register');
+    res.render('register')
 });
+
+app.post('/register/submit', (req, res) => {
+    register.submit(req, res)
+})
 
 app.get('/details', (req, res) => {
     details.load(req, res);
@@ -96,16 +104,8 @@ app.get('/shoppingcard/reduceInBag', (req, res) => {
 })
 
 app.get('/shoppingcard/purchase', (req, res) => {
-    shoppingCard.purchase(reg, res);
+    shoppingCard.purchase(req, res);
 })
-
-app.post('/register/submit', function(req, res) {
-    register.submit(req, res);
-});
-
-app.post('/login/submit', (req, res) => {
-    login.submit(req, res);
-});
 
 app.get('/productInfo', (req, res) => {
     product.info(req, res);

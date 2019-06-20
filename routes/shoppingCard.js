@@ -1,4 +1,6 @@
-module.exports.purchase = function (req, res) {
+const utility = require(require('path').join(__dirname + '/../public/script/utility'));
+
+module.exports.purchase = function(req, res) {
     let ip = req.connection.remoteAddress
     let productList = global.shoppingBagCache.get(ip);
     let groupedProducts = _groupProductsByID(productList)
@@ -10,7 +12,7 @@ module.exports.purchase = function (req, res) {
     res.redirect('/');
 }
 
-module.exports.load = function (req, res) {
+module.exports.load = function(req, res) {
     let items = [{
         image_path: 'images/item-1.png',
         price: '10,00',
@@ -42,14 +44,14 @@ module.exports.load = function (req, res) {
 
     let groupedProducts = _groupProductsByID(productList)
 
-    let count = calculateTotalProductCount(productList)
-    let totalAmount = calculateTotalAmount(productList)
-    let title = productCount === 0 ? 'Ihr Warenkorb ist leer.' : 'Warenkorb';
+    let count = utility.calculateTotalProductCount(productList)
+    let totalAmount = utility.calculateTotalAmount(productList)
+    let title = count === 0 ? 'Ihr Warenkorb ist leer.' : 'Warenkorb';
 
     res.render('shoppingcard', { title: title, products: groupedProducts, count: count, totalAmount: totalAmount });
 }
 
-module.exports.add = function (req, res) {
+module.exports.add = function(req, res) {
     let productId = req.query.id,
         productPrice = req.query.price,
         productStock = req.query.stock,
@@ -67,17 +69,17 @@ module.exports.add = function (req, res) {
     res.redirect('/');
 }
 
-module.exports.deleteItem = function (req, res) {
+module.exports.deleteItem = function(req, res) {
     let productID = req.query.id,
         ip = req.connection.remoteAddress,
         productList = global.shoppingBagCache.get(ip),
         filtertProducts = _filterProdcutsByID(productList, productID)
 
     global.shoppingBagCache.set(ip, filtertProducts);
-    res.redirect('/');
+    res.redirect('/shoppingcard');
 }
 
-module.exports.addInBag = function (req, res) {
+module.exports.addInBag = function(req, res) {
     let productID = req.query.id,
         originalProductPrice = req.query.originalPrice,
         ip = req.connection.remoteAddress,
@@ -85,10 +87,10 @@ module.exports.addInBag = function (req, res) {
 
     productList.push({ 'id': productID, 'price': originalProductPrice })
     global.shoppingBagCache.set(ip, productList);
-    res.redirect('/');
+    res.redirect('/shoppingcard');
 }
 
-module.exports.reduceInBag = function (req, res) {
+module.exports.reduceInBag = function(req, res) {
     let productID = req.query.id,
         ip = req.connection.remoteAddress,
         productList = global.shoppingBagCache.get(ip);
@@ -141,7 +143,7 @@ function _filterProdcutsByID(productList, productID) {
     productList.forEach((element, index) => {
         if (element.id == productID) {
             productList.splice(index, 1)
-            return filterProdcutsByID(productList, productID)
+            return _filterProdcutsByID(productList, productID)
         }
     });
     return productList;
@@ -163,7 +165,7 @@ function _updateDB(groupedProducts, userId) {
 }
 
 function _update(sql) {
-    global.connection.query(sql, function (err, result) {
+    global.connection.query(sql, function(err, result) {
         if (err) throw err;
 
         console.log(result)

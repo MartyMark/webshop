@@ -1,35 +1,17 @@
-module.exports.load = function (req, res) {
+const utility = require(require('path').join(__dirname + '/../public/script/utility'));
+
+module.exports.load = function(req, res) {
     let sql = "SELECT * FROM product"
 
     let ip = req.connection.remoteAddress
     let productList = global.shoppingBagCache.get(ip)
 
-    let count = _calculateTotalProductCount(productList)
-    let totalAmount = _calculateTotalAmount(productList)
+    let count = utility.calculateTotalProductCount(productList)
+    let totalAmount = utility.calculateTotalAmount(productList)
 
-    global.connection.query(sql, function (err, result) {
+    global.connection.query(sql, function(err, result) {
         if (err) throw err;
 
         res.render('index', { sectionTitle: 'SECTION_TITLE_TEXT_42', products: result, count: count, totalAmount: totalAmount })
     });
-}
-
-function _calculateTotalAmount(productList) {
-    let totalAmount = 0;
-
-    if (typeof productList !== 'undefined') {
-        productList.forEach(element => {
-            totalAmount += parseFloat(element.price)
-        });
-    }
-    return String(Number(totalAmount).toFixed(2))
-}
-
-function _calculateTotalProductCount(productList) {
-    let count = 0;
-
-    if (typeof productList !== 'undefined') {
-        count = productList.length
-    }
-    return count;
 }

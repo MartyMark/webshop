@@ -44,8 +44,7 @@ html
                     each product in products
                         div(class='productCard')
                             div(class='productImg')
-                                a(href='/productInfo?id='+product.id) 
-                                    img(src=product.image_path)
+                                img(src=product.image_path)
                             div(class='productText')
                                 h4 #{product.name}
                             div(class='starIcon')
