@@ -184,8 +184,6 @@ async function updateDB(groupedProducts, userId) {
         let addBuyedProduct = "INSERT INTO buyedProducts(userid, productId) VALUES (" + userId + "," + element.id + ")"
 
         if (typeof userId !== 'undefined' && userId !== null) {
-            console.log(addBuyedProduct)
-            console.log(userId)
             await update(addBuyedProduct)
         }
         await update(setStock)
