@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/index/:username', (req, res) => {
-    var username = req.params.username;
+    let username = req.params.username;
     //res.render('index', { name: username }, function(err, html) {
     //html.getElementById('loginText').value = username;
     //});
