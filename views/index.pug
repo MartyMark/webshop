@@ -4,59 +4,59 @@ html
         title Simple Web Shop
         link(rel='stylesheet', href='/css/main.css')
     body
-        div(class='main')
-            div(class='topbar')
-            div(class='iconBar')
-                div(class='container')
-                    div(class='login_register')
+        .main()
+            .topbar()
+            .iconBar()
+                .container()
+                    .login_register()
                         img(id='homeBtn', src='images/home.png') 
                         a(id='loginBtn', href='/login') Login
                         a(id='registerBtn', href='/register') Register
-                    div(id="cartContainer" class='cart')
+                    .cart(id='cartContainer')
                         img(id="cartImage" src='images/shoppingcart.png')
                         a(id='productTotalCount') #{count}
                         a(id='totalAmount') #{totalAmount} €
-            div(class='header')
-                div(class='container')
-                    div(class='navbar')
+            .header()
+                .container()
+                    .navbar()
                         a(href='#') TOPSELLER
                         a(href='#') PC-KONFIGURATOR
                         a(href='#') GRAFIKKARTEN
                         a(href='#') MOTHERBOARD
                         a(href='#') CONTACT
-            div(class='welconme_text')
-                div(class='container')
+            .welconme_text()
+                .container()
                     h1 WELCOME TO #[span BCP] CHECK OUR LATEST OFFER
-            div(class='event_section')
-                div(class='container')
-                    div(class='firstEvent')
+            .event_section()
+                .container()
+                    .firstEvent()
                         h3 CHECKOUT
                         p TEXT TEXT TEXT TEXT TEXT
-                    div(class='secondEvent')
+                    .secondEvent()
                         h3 CHECKOUT
                         p TEXT TEXT TEXT TEXT TEXT
-                    div(class='thirdEvent')
+                    .thirdEvent()
                         h3 CHECKOUT
                         p TEXT TEXT TEXT TEXT TEXT
-            div(class='product')
-                div(class='container')
-                    div(class='product_section_title') #{sectionTitle}
+            .product()
+                .container()
+                    .product_section_title() #{sectionTitle}
                     each product in products
-                        div(class='productCard')
-                            div(class='productImg')
+                        .productCard()
+                            .productImg()
                                 img(src=product.image_path)
-                            div(class='productText')
+                            .productText()
                                 h4 #{product.name}
-                            div(class='starIcon')
+                            .starIcon()
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_yellow.png')
                                 img(src='images/star_black.png')
-                            div(class='productDesc') Noch #{product.stock} auf Lager
-                            div(class='productPrice')
-                                div(class='price') #{product.price}
-                            div(class='button')
+                            .productDesc() Noch #{product.stock} auf Lager
+                            .productPrice()
+                                .price() #{product.price}
+                            .button()
                                a(id='adToCard', href='/shoppingcard/add?id=' + product.id +'&price=' + product.price + '&name=' + product.name + '&stock=' + product.stock) In den Warenkorb
     script(type="module", src='/script/main.js')
     

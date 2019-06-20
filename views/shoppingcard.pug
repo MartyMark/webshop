@@ -4,42 +4,42 @@ html
         title Einkaufswagen
         link(rel='stylesheet', href='/css/shoppingcard.css')
     body
-        div(class='main')
-            div(class='topbar')
-            div(class='iconBar')
-                div(class='container')
-                    div(class='login_register')
+        .main()
+            .topbar()
+            .iconBar()
+                .container()
+                    .login_register()
                         img(id='homeBtn', href='/', src='images/home.png') 
                         a(id='loginBtn', href='/login') Login
                         a(id='registerBtn', href='/register') Register
-                    div(id="cartContainer" class='cart')
+                    .cart(id="cartContainer")
                         img(id="cartImage" src='images/shoppingcart.png')
                         a(id='productTotalCount') #{count}
                         a(id='totalAmount') #{totalAmount} €
-            div(class='shopping-cart')
-                div(class='title') #{title}
+            .shopping-cart()
+                .title() #{title}
                 each product in products
-                    div(class='item')
-                        div(class='delete-btn', type='button', name='button')
+                    .item()
+                        .delete-btn(type='button', name='button')
                             a(href='/shoppingcard/delete?id=' + product.id) 
                                 img(id="deleteBtn" src='images/cross.png')
-                        div(class='image')
+                        .image()
                             img(src=product.image_path, alt='')
-                        div(class='description') 
-                            spam #{product.name} 
+                        .description() 
+                            span #{product.name} 
                             span Noch #{product.stock} auf Lager
-                        div(class='quantity')
-                            button(class='plus-btn', type='button', name='button')
+                        .quantity()
+                            .plus-btn(type='button', name='button')
                                 a(href='/shoppingcard/addInBag?id=' + product.id+'&originalPrice=' + product.originalPrice) 
                                     img(src='images/plus.svg', alt='')
                             
-                            spam(id='productCount') #{product.count}
+                            span(id='productCount') #{product.count}
                             
-                            button(class='minus-btn', type='button', name='button')
+                            .minus-btn(type='button', name='button')
                                 a(href='/shoppingcard/reduceInBag?id=' + product.id +'&originalPrice=' + product.originalPrice) 
                                     img(src='images/minus.svg', alt='')
-                        div(class='price') #{product.price} €
+                        .price() #{product.price} €
                 a(href='/shoppingcard/purchase') 
-                    button(id='purchase-btn' class='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
+                    .purchase-btn(id='purchase-btn', type='button', name='button') Kostenpflichtig bestellen
         script(type="module", src='/script/shoppingBag.js')
         script(type="module", src='/script/main.js')
