@@ -9,6 +9,7 @@ const app = express();
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded())
+app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.set('views', path.join(__dirname, 'public/views'))
 app.set('view engine', 'pug');
@@ -17,7 +18,7 @@ const shoppingBagCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
 const userCache = new NodeCache({ stdTTL: 100, checkperiod: 18.000 });
 const sectionTitle = 'SECTION_TITLE_TEXT_42';
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     let sql = "SELECT * FROM product"
 
     let ip = req.connection.remoteAddress
@@ -26,14 +27,14 @@ app.get('/', function(req, res) {
     let count = calculateTotalProductCount(productList)
     let totalAmount = calculateTotalAmount(productList)
 
-    connection.query(sql, function(err, result) {
+    connection.query(sql, function (err, result) {
         if (err) throw err;
 
         res.render('index', { sectionTitle: sectionTitle, products: result, count: count, totalAmount: totalAmount })
     });
 });
 
-app.get('/index/:username', function(req, res) {
+app.get('/index/:username', function (req, res) {
     var username = req.params.username;
     //res.render('index', { name: username }, function(err, html) {
     //html.getElementById('loginText').value = username;
@@ -51,38 +52,67 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/details', (req, res) => {
-    res.render('details');
+    let personenDaten = {
+        salutation: 'Herr',
+        lastName: 'Busanny',
+        firstName: 'Tim',
+        birthDate: '11.04.1989',
+        email: 'tim.busanny@gmail.com',
+        invoiceAddress: {
+            salutation: 'Herr',
+            lastName: 'Busanny',
+            firstName: 'Tim',
+            street: 'Königstr.',
+            town: 'Warendorf',
+            plz: '48231',
+            houseNumber: '12',
+            countryCode: 'DE',
+            country: 'Deutschland',
+        },
+        payMethod: 'PayPal',
+        sameAddress: false,
+        shippingAddress: {
+            salutation: 'Herr',
+            lastName: 'Busanny',
+            firstName: 'Tim',
+            street: 'Königstr.',
+            town: 'Warendorf',
+            plz: '48231',
+            houseNumber: '12',
+            countryCode: 'DE',
+            country: 'Deutschland',
+        },
+    }
+
+    res.render('details', { personenDaten: personenDaten });
 });
 
 app.get('/shoppingcard', (req, res) => {
     let items = [{
-            image_path: 'images/item-1.png',
-            price: '10,00',
-            description: {
-                rowTop: 'rowTop_1',
-                rowMiddle: 'rowMiddle_1',
-                rowBottom: 'rowBottom_1',
-            }
-        },
-        {
-            image_path: 'images/item-1.png',
-            price: '20,00',
-            description: {
-                rowTop: 'rowTop_2',
-                rowMiddle: 'rowMiddle_2',
-                rowBottom: 'rowBottom_2',
-            }
-        },
-        {
-            image_path: 'images/item-1.png',
-            price: '30,00',
-            description: {
-                rowTop: 'rowTop_3',
-                rowMiddle: 'rowMiddle_3',
-                rowBottom: 'rowBottom_3',
-            }
+        image_path: 'images/item-1.png',
+        price: '10,00',
+        description: {
+            rowTop: 'rowTop_1',
+            rowMiddle: 'rowMiddle_1',
+            rowBottom: 'rowBottom_1',
         }
-    ];
+    }, {
+        image_path: 'images/item-1.png',
+        price: '20,00',
+        description: {
+            rowTop: 'rowTop_2',
+            rowMiddle: 'rowMiddle_2',
+            rowBottom: 'rowBottom_2',
+        }
+    }, {
+        image_path: 'images/item-1.png',
+        price: '30,00',
+        description: {
+            rowTop: 'rowTop_3',
+            rowMiddle: 'rowMiddle_3',
+            rowBottom: 'rowBottom_3',
+        }
+    }];
 
     let ip = req.connection.remoteAddress
     let productList = shoppingBagCache.get(ip)
@@ -191,14 +221,14 @@ async function updateDB(groupedProducts, userId) {
 }
 
 function update(sql) {
-    connection.query(sql, function(err, result) {
+    connection.query(sql, function (err, result) {
         if (err) throw err;
 
         console.log(result)
     });
 }
 
-app.post('/register/submit', function(req, res) {
+app.post('/register/submit', function (req, res) {
     let sql = "INSERT INTO user (surname, name, street, zipcode, email, password) VALUES (\"#FIRSTNAME#\",\"#LASTNAME#\",\"#STREET#\",\"#PLZ#\",\"#EMAIL#\",\"#PASSWORD#\")";
 
     sql.replace('#FIRSTNAME#', req.body.firstName);
@@ -208,20 +238,24 @@ app.post('/register/submit', function(req, res) {
     sql.replace('#EMAIL#', req.body.email);
     sql.replace('#PASSWORD#', req.body.password);
 
-    connection.query(sql, function(err, result) {
+    connection.query(sql, function (err, result) {
         if (err) throw err;
     });
     res.redirect('/login');
 });
 
 app.post('/login/submit', (req, res) => {
+    console.log(req);
+    console.log(req.body);
+    console.log(req.body.username);
+    console.log(req.body.psw);
     var username = req.body.username;
     var password = req.body.psw;
     let ip = req.connection.remoteAddress
 
     var sql = "SELECT * FROM user WHERE name = '" + username + "' and password = '" + password + "'";
 
-    connection.query(sql, function(err, result) {
+    connection.query(sql, function (err, result) {
         if (err) throw err;
 
         if (!result.length) {
@@ -238,7 +272,7 @@ app.get('/productInfo', (req, res) => {
     let productID = req.query.id
     let sql = "select * from product where id =" + productID
 
-    connection.query(sql, function(err, result) {
+    connection.query(sql, function (err, result) {
         if (err) throw err;
 
         res.render('productInfo', { product: result[0] });
@@ -253,7 +287,7 @@ var connection = mysql.createConnection({
     database: 'sampledb'
 });
 
-connection.connect(function(error) {
+connection.connect(function (error) {
     if (!error) {
         console.log('Error');
     } else {

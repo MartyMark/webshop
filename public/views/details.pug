@@ -3,6 +3,68 @@ html
     head
         title Mein Konto
         link(rel='stylesheet', href='/css/details.css')
+        link(href="https://fonts.googleapis.com/css?family=Titillium+Web:600&display=swap" rel="stylesheet")
     body
-        div(class='')
-        
+        .iconBar()
+        .header()
+            .headerh3() #[h3 Mein Konto]
+        .greetings()    #[strong Willkommen, #{personenDaten.firstName} #{personenDaten.lastName}]
+                        |
+                        br
+                        | Dies ist dein Kudenkonto. Hier hast du die Möglichkeit, deinen Shop-Bestellungen
+                        br
+                        | einzusehen und deine Kontaktdaten zu bearbeiten.
+        .container()
+            .row()
+                .grid()
+                    .grid-inner()
+                        .grid-inner-element() 
+                            strong Persönliche Daten
+                            |
+                            hr(style='border-color: #fcc508;')
+                            |
+                            | #{personenDaten.salutation} #{personenDaten.lastName} #{personenDaten.firstName}
+                            br
+                            | #{personenDaten.birthDate}
+                            br
+                            | #{personenDaten.email}
+
+                    .grid-inner()
+                        .grid-inner-element()
+                            strong Zahlungsarten
+                            |
+                            hr(style='border-color: #fcc508;')
+                            |
+                            | #{personenDaten.payMethod}
+                .grid()
+                    .grid-inner()
+                        .grid-inner-element() 
+                            strong Rechnungsadresse
+                            |
+                            hr(style='border-color: #fcc508;')
+                            |
+                            | #{personenDaten.invoiceAddress.salutation} #{personenDaten.invoiceAddress.lastName} #{personenDaten.invoiceAddress.firstName}
+                            br
+                            | #{personenDaten.invoiceAddress.street}, #{personenDaten.invoiceAddress.houseNumber}
+                            br
+                            | #{personenDaten.invoiceAddress.countryCode}, #{personenDaten.invoiceAddress.plz}, #{personenDaten.invoiceAddress.town}
+                    .grid-inner()
+                        .grid-inner-element() 
+                            unless personenDaten.sameAddress
+                                strong Lieferadresse
+                                |
+                                hr(style='border-color: #fcc508;')
+                                |
+                                | #{personenDaten.shippingAddress.salutation} #{personenDaten.shippingAddress.lastName} #{personenDaten.shippingAddress.firstName}
+                                br
+                                | #{personenDaten.shippingAddress.street}, #{personenDaten.shippingAddress.houseNumber}
+                                br
+                                | #{personenDaten.shippingAddress.countryCode}, #{personenDaten.shippingAddress.plz}, #{personenDaten.shippingAddress.town}
+                            else
+                                strong Lieferadresse
+                                |
+                                hr(style='border-color: #fcc508;')
+                                |
+                                | Entspricht der Rechnungsadresse
+                            .grid-inner-element-button()
+                                a(id='change', href='/details') Ändern
