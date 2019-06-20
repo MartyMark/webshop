@@ -4,8 +4,8 @@ module.exports.load = function (req, res) {
     let ip = req.connection.remoteAddress
     let productList = global.shoppingBagCache.get(ip)
 
-    let count = calculateTotalProductCount(productList)
-    let totalAmount = calculateTotalAmount(productList)
+    let count = _calculateTotalProductCount(productList)
+    let totalAmount = _calculateTotalAmount(productList)
 
     connection.query(sql, function (err, result) {
         if (err) throw err;

@@ -49,7 +49,9 @@ connection.connect(function(error) {
     }
 });
 
-
+app.get('/', function(req, res) {
+    main.load(req, res);
+});
 
 app.get('/index/:username', function(req, res) {
     var username = req.params.username;
@@ -61,11 +63,11 @@ app.get('/index/:username', function(req, res) {
 });
 
 app.get('/login', (reg, res) => {
-    res.render('login');
+    login.render('login');
 });
 
 app.get('/register', (req, res) => {
-    res.render('register');
+    register.render('register');
 });
 
 app.get('/details', (req, res) => {
@@ -106,10 +108,6 @@ app.post('/login/submit', (req, res) => {
 
 app.get('/productInfo', (req, res) => {
     product.info(req, res);
-});
-
-app.get('/', function(req, res) {
-    main.load(req, res);
 });
 
 app.listen(PORT, () => console.log('Server started'));
