@@ -1,6 +1,6 @@
 const utility = require(require('path').join(__dirname + '/../public/script/utility'));
 
-module.exports.load = function(req, res) {
+module.exports.load = function(req, res, userid) {
     let sql = "SELECT * FROM product"
 
     let ip = req.connection.remoteAddress
@@ -9,9 +9,10 @@ module.exports.load = function(req, res) {
     let count = utility.calculateTotalProductCount(productList)
     let totalAmount = utility.calculateTotalAmount(productList)
 
+    //let userid = req.query.userid
     global.connection.query(sql, function(err, result) {
         if (err) throw err;
 
-        res.render('index', { sectionTitle: 'SECTION_TITLE_TEXT_42', products: result, count: count, totalAmount: totalAmount })
+        res.render('index', { sectionTitle: 'SECTION_TITLE_TEXT_42', products: result, count: count, totalAmount: totalAmount, userid: userid })
     });
 }

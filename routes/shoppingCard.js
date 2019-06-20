@@ -82,10 +82,13 @@ module.exports.deleteItem = function(req, res) {
 module.exports.addInBag = function(req, res) {
     let productID = req.query.id,
         originalProductPrice = req.query.originalPrice,
+        stock = req.query.stock,
+        name = req.query.name,
         ip = req.connection.remoteAddress,
         productList = global.shoppingBagCache.get(ip);
 
-    productList.push({ 'id': productID, 'price': originalProductPrice })
+    productList.push({ 'id': productID, 'price': originalProductPrice, 'stock': stock, 'name': name })
+
     global.shoppingBagCache.set(ip, productList);
     res.redirect('/shoppingcard');
 }
@@ -102,6 +105,7 @@ module.exports.reduceInBag = function(req, res) {
             break
         }
     }
+
     global.shoppingBagCache.set(ip, productList);
     res.redirect('/shoppingcard');
 }

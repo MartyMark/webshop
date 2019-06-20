@@ -5,75 +5,82 @@ html
         link(rel='stylesheet', href='/css/details.css')
         link(href="https://fonts.googleapis.com/css?family=Titillium+Web:600&display=swap" rel="stylesheet")
     body
-        .iconBar()
-        .header()
-            .headerh3() #[h3 Mein Konto]
-        .greetings()    #[strong Willkommen, #{personenDaten.firstName} #{personenDaten.lastName}]
-                        |
-                        br
-                        | Dies ist dein Kudenkonto. Hier hast du die Möglichkeit, deinen Shop-Bestellungen
-                        br
-                        | einzusehen und deine Kontaktdaten zu bearbeiten.
-        .container()
-            .row()
-                .grid()
-                    .grid-inner()
-                        .grid-inner-element()
-                            strong Persönliche Daten
+        .main()
+            .topbar()
+            .iconBar()
+                .container()
+                    .login_register()
+                        img(id='homeBtn', src='images/home.png') 
+                        a(id='logoutBtn', href='/logout') Abmelden
+            .header()
+                .headerh3() #[h3 Mein Konto]
+            .greetings()    #[strong Willkommen, #{personenDaten.firstName} #{personenDaten.lastName}]
                             |
-                            hr(style='border-color: #fcc508;')
-                            |
-                            .boxText()
-                                | #{personenDaten.salutation} #{personenDaten.lastName} #{personenDaten.firstName}
-                                br
-                                | #{personenDaten.birthDate}
-                                br
-                                | #{personenDaten.email}
-                            .grid-inner-element-button()
-                                a(id='change', href='/details') Ändern
-                    .grid-inner()
-                        .grid-inner-element()
-                            strong Zahlungsarten
-                            |
-                            hr(style='border-color: #fcc508;')
-                            |
-                            .boxText()
-                                | #{personenDaten.payMethod}
-                            .grid-inner-element-button()
-                                a(id='change', href='/details') Ändern
-                .grid()
-                    .grid-inner()
-                        .grid-inner-element() 
-                            strong Rechnungsadresse
-                            |
-                            hr(style='border-color: #fcc508;')
-                            |
-                            .boxText()
-                                | #{personenDaten.invoiceAddress.salutation} #{personenDaten.invoiceAddress.lastName} #{personenDaten.invoiceAddress.firstName}
-                                br
-                                | #{personenDaten.invoiceAddress.street}, #{personenDaten.invoiceAddress.houseNumber}
-                                br
-                                | #{personenDaten.invoiceAddress.countryCode}, #{personenDaten.invoiceAddress.plz}, #{personenDaten.invoiceAddress.town}
-                            .grid-inner-element-button()
-                                a(id='change', href='/details') Ändern
-                    .grid-inner()
-                        .grid-inner-element()
-                            unless personenDaten.sameAddress
-                                strong Lieferadresse
+                            br
+                            | Dies ist dein Kudenkonto. Hier hast du die Möglichkeit, deinen Shop-Bestellungen
+                            br
+                            | einzusehen und deine Kontaktdaten zu bearbeiten.
+            .container()
+                .row()
+                    .grid()
+                        .grid-inner()
+                            .grid-inner-element()
+                                strong Persönliche Daten
                                 |
                                 hr(style='border-color: #fcc508;')
                                 |
                                 .boxText()
-                                    | #{personenDaten.shippingAddress.salutation} #{personenDaten.shippingAddress.lastName} #{personenDaten.shippingAddress.firstName}
+                                    | #{personenDaten.salutation} #{personenDaten.lastName} #{personenDaten.firstName}
                                     br
-                                    | #{personenDaten.shippingAddress.street}, #{personenDaten.shippingAddress.houseNumber}
+                                    | #{personenDaten.birthDate}
                                     br
-                                    | #{personenDaten.shippingAddress.countryCode}, #{personenDaten.shippingAddress.plz}, #{personenDaten.shippingAddress.town}
-                            else
-                                strong Lieferadresse
+                                    | #{personenDaten.email}
+                                .grid-inner-element-button()
+                                    a(id='change', href='/details') Ändern
+                        .grid-inner()
+                            .grid-inner-element()
+                                strong Zahlungsarten
                                 |
                                 hr(style='border-color: #fcc508;')
                                 |
-                                | Entspricht der Rechnungsadresse
-                            .grid-inner-element-button()
-                                a(id='change', href='/details') Ändern
+                                .boxText()
+                                    | #{personenDaten.payMethod}
+                                .grid-inner-element-button()
+                                    a(id='change', href='/details') Ändern
+                    .grid()
+                        .grid-inner()
+                            .grid-inner-element() 
+                                strong Rechnungsadresse
+                                |
+                                hr(style='border-color: #fcc508;')
+                                |
+                                .boxText()
+                                    | #{personenDaten.invoiceAddress.salutation} #{personenDaten.invoiceAddress.lastName} #{personenDaten.invoiceAddress.firstName}
+                                    br
+                                    | #{personenDaten.invoiceAddress.street}, #{personenDaten.invoiceAddress.houseNumber}
+                                    br
+                                    | #{personenDaten.invoiceAddress.countryCode}, #{personenDaten.invoiceAddress.plz}, #{personenDaten.invoiceAddress.town}
+                                .grid-inner-element-button()
+                                    a(id='change', href='/details') Ändern
+                        .grid-inner()
+                            .grid-inner-element()
+                                unless personenDaten.sameAddress
+                                    strong Lieferadresse
+                                    |
+                                    hr(style='border-color: #fcc508;')
+                                    |
+                                    .boxText()
+                                        | #{personenDaten.shippingAddress.salutation} #{personenDaten.shippingAddress.lastName} #{personenDaten.shippingAddress.firstName}
+                                        br
+                                        | #{personenDaten.shippingAddress.street}, #{personenDaten.shippingAddress.houseNumber}
+                                        br
+                                        | #{personenDaten.shippingAddress.countryCode}, #{personenDaten.shippingAddress.plz}, #{personenDaten.shippingAddress.town}
+                                else
+                                    strong Lieferadresse
+                                    |
+                                    hr(style='border-color: #fcc508;')
+                                    |
+                                    | Entspricht der Rechnungsadresse
+                                .grid-inner-element-button()
+                                    a(id='change', href='/details') Ändern
+    script(type="module", src='/script/details.js')

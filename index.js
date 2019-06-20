@@ -54,13 +54,9 @@ app.get('/', (req, res) => {
     main.load(req, res);
 });
 
-app.get('/index/:username', (req, res) => {
-    let username = req.params.username;
-    //res.render('index', { name: username }, function(err, html) {
-    //html.getElementById('loginText').value = username;
-    //});
-    //res.render('index', { output: req.params.username });
-    res.redirect('/');
+app.get('/index/:userid', (req, res) => {
+    let userid = req.params.userid;
+    main.load(req, res, userid);
 });
 
 app.get('/login', (req, res) => {

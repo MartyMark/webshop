@@ -6,7 +6,7 @@ html
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         .modal(id='modalHandle')
-            .modal-content.animate(action='/login/submit', method='post')
+           form(class='modal-content animate', action='/login/submit', method='post')
                 .container()
                     input(type='text', placeholder='Username', name='username', required)
                     input(type='password', placeholder='Passwort', name='psw', required)

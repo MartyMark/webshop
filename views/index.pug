@@ -11,7 +11,10 @@ html
                     .login_register()
                         img(id='homeBtn', src='images/home.png') 
                         a(id='loginBtn', href='/login') Login
-                        a(id='registerBtn', href='/register') Register
+                        a(id='registerBtn', href='/register') Registrierung
+
+                        if(userid)
+                            a(id='myAccount', href='/details?id=' + userid) Mein Konto
                     .cart(id='cartContainer')
                         img(id="cartImage" src='images/shoppingcart.png')
                         a(id='productTotalCount') #{count}
@@ -56,7 +59,7 @@ html
                             .productDesc() Noch #{product.stock} auf Lager
                             .productPrice()
                                 .price() #{product.price}
-                            button
+                            button(class='button')
                                a(id='adToCard', href='/shoppingcard/add?id=' + product.id +'&price=' + product.price + '&name=' + product.name + '&stock=' + product.stock) In den Warenkorb
     script(type="module", src='/script/main.js')
     

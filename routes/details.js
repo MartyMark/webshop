@@ -1,4 +1,4 @@
-module.exports.load = function (req, res) {
+module.exports.load = function(req, res) {
     let personenDaten = {
         salutation: 'Herr',
         lastName: 'Busanny',
@@ -30,6 +30,8 @@ module.exports.load = function (req, res) {
             country: 'Deutschland',
         },
     }
+
+    let userid = req.query.userid
 
     res.render('details', { personenDaten: personenDaten });
 }

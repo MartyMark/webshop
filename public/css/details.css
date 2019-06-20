@@ -1,95 +1,142 @@
-.headerh3 {
-  padding-left: 7%;
-  color: white;
-  font-size: 24pt;
-  font-family: 'Titillium Web', sans-serif;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-html,
-body {
-  margin: 0px;
-  padding: 0px;
-  height: 100%;
-  background-color: gray;
-  display: block
+.main {
+    width: 100%;
+    height: auto;
+    background-color: gray;
+    min-height: 942px;
+    margin: 0 auto;
+}
+
+.topbar {
+    width: 100%;
+    height: 4px;
+    background-color: #fcc508;
 }
 
 .iconBar {
-  width: 100%;
-  height: 33px;
-  background-color: #2a2b2c;
+    width: 100%;
+    height: 33px;
+    background-color: #2a2b2c;
+    float: left;
+}
+
+.login_register {
+    height: auto;
+    float: left;
+}
+
+.login_register a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    float: left;
+    line-height: 33px;
+    width: auto;
+    margin-right: 8px;
+    margin-left: 4px;
+}
+
+.login_register a:hover {
+    opacity: 0.7;
+}
+
+#logoutBtn {
+    margin-left: 14px;
+}
+
+.login_register img {
+    margin-top: 3px;
+    cursor: pointer;
+    float: left;
+}
+
+.headerh3 {
+    padding-left: 7%;
+    color: white;
+    font-size: 24pt;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .header {
-	width: 100%;
+    width: 100%;
 }
 
 .greetings {
-  height: auto;
-  font-size: 17pt;
-  color: white;
-  font-family: 'Titillium Web', sans-serif;
-  padding-left: 7%;
+    height: auto;
+    font-size: 17pt;
+    color: white;
+    font-family: 'Titillium Web', sans-serif;
+    padding-left: 7%;
 }
 
 .container {
-	width: 100%;
+    width: 100%;
+    height: auto;
+    min-height: 50px;
+    /*ACHTUNG!!!*/
+    margin: 0 auto;
 }
 
 .row {
-	width: 90%;
-  padding: 3%;
-  display: inline-block;
-  text-align: center
+    width: 90%;
+    padding: 3%;
+    display: inline-block;
+    text-align: center
 }
+
 .list {
-	width: 27%;
-  float: left;
+    width: 27%;
+    float: left;
 }
+
 .grid {
-	width: 100%;
-  float: right;
-  margin-bottom: 2%;
+    width: 100%;
+    float: right;
+    margin-bottom: 2%;
 }
+
 .grid-inner {
-  vertical-align: top;
-	min-width: 30%;
-  display: inline-block;
-  margin-right: 0.5%;
-  text-align: left;
-  color: #fcc508;
-  font-size: 14pt;
-  font-family: 'Titillium Web', sans-serif;
+    vertical-align: top;
+    min-width: 30%;
+    display: inline-block;
+    margin-right: 0.5%;
+    text-align: left;
+    color: #fcc508;
+    font-size: 14pt;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .grid-inner-element {
-  border-radius: 25px;
-  border: 2px solid #fcc508;
-  padding: 20px;
-  width: 300px;
-  height: 200px; 
-  font-family: 'Titillium Web', sans-serif;
+    border-radius: 25px;
+    border: 2px solid #fcc508;
+    padding: 20px;
+    width: 300px;
+    height: 200px;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .boxText {
-  height: 65%
+    height: 65%
 }
 
 .grid-inner-element-button {
-  text-align: center;
-  width: 100%;
-
-  background-color: #fcc508;
-  border-radius: 5px;
-  color: #2a2b2c;
+    text-align: center;
+    width: 100%;
+    background-color: #fcc508;
+    border-radius: 5px;
+    color: #2a2b2c;
 }
 
 .grid-inner-element-button a {
-  color: #2a2b2c;
-  text-decoration: none;
-  font-weight: bold;
+    color: #2a2b2c;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .grid-inner-element-button:hover {
-  opacity: 0.7;
+    opacity: 0.7;
 }
