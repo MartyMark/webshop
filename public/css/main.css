@@ -1,10 +1,7 @@
-* {
+html, * {
     margin: 0;
     padding: 0;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titillium Web', sans-serif !important; 
 }
 
 .main {
@@ -106,7 +103,7 @@ body {
 .navbar {
     width: 1000px;
     float: left;
-    text-align: right;
+    text-align: center;
     padding-top: 30px;
     padding-bottom: 20px;
 }
@@ -125,14 +122,16 @@ body {
 
 .welcome_text {
     width: 100%;
-    height: auto;
-    float: left;
     margin-top: 40px;
     text-align: center;
 }
 
 .welcome_text h1 {
     font-weight: normal;
+}
+
+.logo img {
+    height: 50px;
 }
 
 .event_section {
@@ -169,15 +168,39 @@ body {
     color: #cd3737;
 }
 
+.aufLagerContainer {
+    width: fit-content;
+}
+
 .product {
     width: 100%;
     height: auto;
     float: left;
-    margin-top: 50px;
+    margin-top: 100px;
+}
+
+.greenDot {
+    height: 10px;
+    width: 10px;
+    background-color: rgb(37, 146, 37);
+    border-radius: 50%;
+}
+
+.orangeDot {
+    height: 10px;
+    width: 10px;
+    background-color: rgba(255, 174, 0, 0.911);
+    border-radius: 50%;
+}
+
+.redDot {
+    height: 10px;
+    width: 10px;
+    background-color: rgb(221, 26, 26);
+    border-radius: 50%;
 }
 
 .product_section_title {
-    float: left;
     width: 100%;
     display: inline-block;
     font-size: 20px;
@@ -189,18 +212,18 @@ body {
     float: left;
     width: 230px;
     height: auto;
+    border: 2px solid;
     border-radius: 7px;
+    border-color: #2a2b2c;
     background-color: white;
     padding-bottom: 15px;
     margin-right: 16px;
 }
 
 .product_img {
-    width: 230px;
+    max-width: 230px;
     float: left;
-    border: 2px solid;
-    border-radius: 7px;
-    overflow: hidden;
+    border-bottom: 1px solid;
     border-color: #2a2b2c
 }
 
@@ -220,7 +243,6 @@ body {
 
 .productText h4 {
     font-weight: normal;
-    padding-left: 10px;
 }
 
 .starIcon {

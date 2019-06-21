@@ -1,6 +1,7 @@
-* {
+html, * {
     margin: 0;
     padding: 0;
+    font-family: 'Titillium Web', sans-serif !important; 
 }
 
 .main {
@@ -58,7 +59,6 @@
     padding-left: 7%;
     color: white;
     font-size: 24pt;
-    font-family: 'Titillium Web', sans-serif;
 }
 
 .header {
@@ -69,7 +69,6 @@
     height: auto;
     font-size: 17pt;
     color: white;
-    font-family: 'Titillium Web', sans-serif;
     padding-left: 7%;
 }
 
@@ -107,7 +106,6 @@
     text-align: left;
     color: #fcc508;
     font-size: 14pt;
-    font-family: 'Titillium Web', sans-serif;
 }
 
 .grid-inner-element {
@@ -116,7 +114,6 @@
     padding: 20px;
     width: 300px;
     height: 200px;
-    font-family: 'Titillium Web', sans-serif;
 }
 
 .boxText {
