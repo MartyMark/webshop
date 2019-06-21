@@ -12,7 +12,7 @@ module.exports.load = function (req, res, userid) {
     global.connection.query(sql, function (err, result) {
         if (err) throw err;
 
-        res.render('index', { sectionTitle: 'SECTION_TITLE_TEXT_42', products: result, count: count, totalAmount: totalAmount, userid: userid })
+        res.render('index', { sectionTitle: 'Topseller', products: result, count: count, totalAmount: totalAmount, userid: userid })
     });
 
     let products = [{
