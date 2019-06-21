@@ -21,6 +21,7 @@ const app = express();
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded())
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.set('views', path.join(__dirname, 'views'))
@@ -33,7 +34,7 @@ let connection = mysql.createConnection({
     database: 'sampledb'
 });
 
-connection.connect(function(error) {
+connection.connect(error => {
     if (!error) {
         console.log('Error');
     } else {

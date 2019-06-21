@@ -1,7 +1,7 @@
 module.exports.submit = function(req, res) {
     var email = req.body.email;
     var password = req.body.psw;
-    let ip = req.connection.remoteAddress
+    let ip = req.connection.remoteAddress;
 
     var sql = "SELECT * FROM user WHERE email = '" + email + "' and password = '" + password + "'";
 
@@ -12,7 +12,7 @@ module.exports.submit = function(req, res) {
             res.redirect('/login');
             return;
         }
-        let userid = result[0].id
+        let userid = result[0].id;
 
         global.userCache.set(ip, userid);
 
