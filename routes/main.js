@@ -9,7 +9,6 @@ module.exports.load = function (req, res, userid) {
     let count = utility.calculateTotalProductCount(productList)
     let totalAmount = utility.calculateTotalAmount(productList)
 
-    //let userid = req.query.userid
     global.connection.query(sql, function (err, result) {
         if (err) throw err;
 

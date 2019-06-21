@@ -1,9 +1,11 @@
 module.exports.submit = function(req, res) {
-    var username = req.body.username;
+    var email = req.body.email;
     var password = req.body.psw;
     let ip = req.connection.remoteAddress
 
-    var sql = "SELECT * FROM user WHERE name = '" + username + "' and password = '" + password + "'";
+    var sql = "SELECT * FROM user WHERE email = '" + email + "' and password = '" + password + "'";
+
+    console.log(sql)
 
     global.connection.query(sql, function(err, result) {
         if (err) throw err;

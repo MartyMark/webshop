@@ -160,8 +160,6 @@ function _updateDB(groupedProducts, userId) {
         let addBuyedProduct = "INSERT INTO buyedProducts(userid, productId) VALUES (" + userId + "," + element.id + ")"
 
         if (typeof userId !== 'undefined' && userId !== null) {
-            console.log(addBuyedProduct)
-            console.log(userId)
             _update(addBuyedProduct)
         }
         _update(setStock)
