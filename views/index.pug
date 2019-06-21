@@ -10,15 +10,15 @@ html
             .iconBar()
                 .container()
                     .login_register()
-                        a(href='/') 
-                            img(id='homeBtn', src='images/home.png') 
+                        a(href='/index/' + userid) 
+                            img(id='homeBtn', src='/images/home.png') 
                         a(id='loginBtn', href='/login') Login
                         a(id='registerBtn', href='/register') Registrierung
 
                         if userid
                             a(id='myAccount', href='/details?userid=' + userid) Mein Konto
                     .cart(id='cartContainer')
-                        img(id="cartImage" src='images/shoppingcart.png')
+                        img(id="cartImage" src='/images/shoppingcart.png')
                         a(id='productTotalCount') #{count}
                         a(id='totalAmount') #{totalAmount} €
             .header()
@@ -31,7 +31,7 @@ html
                         a(href='#') CONTACT
                 .welconme_text()
                     .container()
-                        img(class='logo img', src='images/logo.png', style='max-height: 50px;')
+                        img(class='logo img', src='/images/logo.png', style='max-height: 50px;')
             .product()
                 .container()
                     .product_section_title() #{sectionTitle}

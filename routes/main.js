@@ -23,7 +23,7 @@ module.exports.load = function (req, res, userid = null) {
         name: '11GB MSI GeForce',
         description: '11GB MSI GeForce RTX 2080 Ti VENTUS 11G Aktiv PCIe 3.0 x16',
         price: 199,
-        image_path: 'images/graka.jpg',
+        image_path: '/images/graka.jpg',
         stock: 3
     },
     {
@@ -31,7 +31,7 @@ module.exports.load = function (req, res, userid = null) {
         name: 'Dell 210-AGTR',
         description: 'Dell 210-AGTR 68,6 cm (27 Zoll) UP2716D',
         price: 199,
-        image_path: 'images/monitor.jpg',
+        image_path: '/images/monitor.jpg',
         stock: 0
     },
     {
@@ -39,7 +39,7 @@ module.exports.load = function (req, res, userid = null) {
         name: 'Asus ROG Maximus',
         description: 'Asus ROG Maximus XI Hero Gaming',
         price: 199,
-        image_path: 'images/mainboard.jpg',
+        image_path: '/images/mainboard.jpg',
         stock: 23
     },
     {
@@ -47,7 +47,7 @@ module.exports.load = function (req, res, userid = null) {
         name: 'Intel® Core i9',
         description: 'Intel® Core i9-9900K 8X 3.6GHz Boxed',
         price: 199,
-        image_path: 'images/i9.jpg',
+        image_path: '/images/i9.jpg',
         stock: 23
     }
     ]
