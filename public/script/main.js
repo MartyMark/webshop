@@ -29,9 +29,6 @@ function mouseOutCart() {
     totalAmount.style.opacity = 1
 }
 
-homeBtn.addEventListener("click", function() {
-    window.location.href = '/'
-})
 homeBtn.addEventListener("mouseover", function() {
     homeBtn.style.opacity = 0.7
 })

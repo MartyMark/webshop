@@ -1,6 +1,9 @@
 const utility = require(require('path').join(__dirname + '/../public/script/utility'));
 
-module.exports.load = function(req, res, userid) {
+/**
+ * Lädt die Startseite.
+ */
+module.exports.load = function(req, res, userid = null) {
     let sql = "SELECT * FROM product"
 
     let ip = req.connection.remoteAddress
@@ -17,7 +20,7 @@ module.exports.load = function(req, res, userid) {
 
     let products = [{
             id: 1,
-            name: 'Test1',
+            name: '11GB MSI GeForce',
             description: '11GB MSI GeForce RTX 2080 Ti VENTUS 11G Aktiv PCIe 3.0 x16',
             price: 199,
             image_path: 'images/graka.jpg',
@@ -25,7 +28,7 @@ module.exports.load = function(req, res, userid) {
         },
         {
             id: 2,
-            name: 'Test1',
+            name: 'Dell 210-AGTR',
             description: 'Dell 210-AGTR 68,6 cm (27 Zoll) UP2716D',
             price: 199,
             image_path: 'images/monitor.jpg',
@@ -33,7 +36,7 @@ module.exports.load = function(req, res, userid) {
         },
         {
             id: 3,
-            name: 'Test1',
+            name: 'Asus ROG Maximus',
             description: 'Asus ROG Maximus XI Hero Gaming',
             price: 199,
             image_path: 'images/mainboard.jpg',
@@ -41,7 +44,7 @@ module.exports.load = function(req, res, userid) {
         },
         {
             id: 4,
-            name: 'Test1',
+            name: 'Intel® Core i9',
             description: 'Intel® Core i9-9900K 8X 3.6GHz Boxed',
             price: 199,
             image_path: 'images/i9.jpg',

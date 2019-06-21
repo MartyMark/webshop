@@ -13,7 +13,6 @@ const shoppingCard = require(path.join(__dirname, 'routes', 'shoppingCard'));
 const details = require(path.join(__dirname, 'routes', 'details'));
 const register = require(path.join(__dirname, 'routes', 'register'));
 const login = require(path.join(__dirname, 'routes', 'login'));
-const product = require(path.join(__dirname, 'routes', 'product'));
 const main = require(path.join(__dirname, 'routes', 'main'));
 const PORT = process.env.PORT || 5500;
 const app = express();
@@ -103,9 +102,5 @@ app.get('/shoppingcard/reduceInBag', (req, res) => {
 app.get('/shoppingcard/purchase', (req, res) => {
     shoppingCard.purchase(req, res);
 })
-
-app.get('/productInfo', (req, res) => {
-    product.info(req, res);
-});
 
 app.listen(PORT, () => console.log('Server started'));

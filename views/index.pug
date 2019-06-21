@@ -10,11 +10,12 @@ html
             .iconBar()
                 .container()
                     .login_register()
-                        img(id='homeBtn', src='images/home.png') 
+                        a(href='/index/' + userid) 
+                            img(id='homeBtn', src='images/home.png') 
                         a(id='loginBtn', href='/login') Login
                         a(id='registerBtn', href='/register') Registrierung
 
-                        if(userid)
+                        if userid
                             a(id='myAccount', href='/details?userid=' + userid) Mein Konto
                     .cart(id='cartContainer')
                         img(id="cartImage" src='images/shoppingcart.png')

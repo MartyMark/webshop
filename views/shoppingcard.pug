@@ -10,7 +10,8 @@ html
             .iconBar()
                 .container()
                     .login_register()
-                        img(id='homeBtn', href='/', src='images/home.png') 
+                        a(href='/index/' + userid) 
+                            img(id='homeBtn', href='/', src='images/home.png') 
                         a(id='loginBtn', href='/login') Login
                         a(id='registerBtn', href='/register') Register
                     .cart(id="cartContainer")
