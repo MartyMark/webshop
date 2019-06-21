@@ -38,8 +38,6 @@ module.exports.load = function(req, res) {
     global.connection.query(sql, function(err, result) {
         if (err) throw err;
 
-        console.log("sdfsdfsd", result[0])
-
         res.render('details', { userdata: result[0] });
     });
 }

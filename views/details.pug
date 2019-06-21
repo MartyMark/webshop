@@ -10,9 +10,9 @@ html
             .iconBar()
                 .container()
                     .login_register()
-                        a(href='/homeBtn?userid=' + userdata.id) 
+                        a(href='/index/' + userdata.id) 
                             img(id='homeBtn', src='images/home.png') 
-                        a(id='logoutBtn', href='/logout?userid=' + userdata.id) Abmelden
+                        a(id='logoutBtn', href='/logout/?userid=' + userdata.id) Abmelden
             .header()
                 .headerh3() #[h3 Mein Konto]
             .greetings()    #[strong Willkommen, #{userdata.surname} #{userdata.name}]

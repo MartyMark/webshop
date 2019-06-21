@@ -107,8 +107,4 @@ app.get('/productInfo', (req, res) => {
     product.info(req, res);
 });
 
-app.get('/homeBtn/:userid', (req, res) => {
-
-})
-
 app.listen(PORT, () => console.log('Server started'));

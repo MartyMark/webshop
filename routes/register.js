@@ -16,8 +16,6 @@ module.exports.submit = function(req, res) {
     sql = sql.replace('#PASSWORD#', req.body.pw);
     sql = sql.replace("#PAYMETHOD#", 1);
 
-    console.log(sql)
-
     global.connection.query(sql, function(err, result) {
         if (err) throw err;
     });
