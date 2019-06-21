@@ -47,6 +47,4 @@ module.exports.load = function (req, res, userid) {
         image_path: 'images/i9.jpg',
         stock: 23
     }]
-
-    res.render('index', { sectionTitle: 'Topseller', products: products, count: 5, totalAmount: 23, userid: 113 })
 }
