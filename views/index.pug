@@ -14,7 +14,7 @@ html
                         a(id='registerBtn', href='/register') Registrierung
 
                         if(userid)
-                            a(id='myAccount', href='/details?id=' + userid) Mein Konto
+                            a(id='myAccount', href='/details?userid=' + userid) Mein Konto
                     .cart(id='cartContainer')
                         img(id="cartImage" src='images/shoppingcart.png')
                         a(id='productTotalCount') #{count}

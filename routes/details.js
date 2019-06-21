@@ -33,5 +33,13 @@ module.exports.load = function(req, res) {
 
     let userid = req.query.userid
 
-    res.render('details', { personenDaten: personenDaten });
+    let sql = "select * from user inner join paymethod on user.paymethodID = paymethod.id where user.id = " + userid
+
+    global.connection.query(sql, function(err, result) {
+        if (err) throw err;
+
+        console.log("sdfsdfsd", result[0])
+
+        res.render('details', { userdata: result[0] });
+    });
 }

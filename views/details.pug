@@ -10,14 +10,15 @@ html
             .iconBar()
                 .container()
                     .login_register()
-                        img(id='homeBtn', src='images/home.png') 
-                        a(id='logoutBtn', href='/logout') Abmelden
+                        a(href='/homeBtn?userid=' + userdata.id) 
+                            img(id='homeBtn', src='images/home.png') 
+                        a(id='logoutBtn', href='/logout?userid=' + userdata.id) Abmelden
             .header()
                 .headerh3() #[h3 Mein Konto]
-            .greetings()    #[strong Willkommen, #{personenDaten.firstName} #{personenDaten.lastName}]
+            .greetings()    #[strong Willkommen, #{userdata.surname} #{userdata.name}]
                             |
                             br
-                            | Dies ist dein Kudenkonto. Hier hast du die Möglichkeit, deinen Shop-Bestellungen
+                            | Dies ist dein Kundenkonto. Hier hast du die Möglichkeit, deinen Shop-Bestellungen
                             br
                             | einzusehen und deine Kontaktdaten zu bearbeiten.
             .container()
@@ -30,11 +31,11 @@ html
                                 hr(style='border-color: #fcc508;')
                                 |
                                 .boxText()
-                                    | #{personenDaten.salutation} #{personenDaten.lastName} #{personenDaten.firstName}
+                                    | #{userdata.surame} #{userdata.name}
                                     br
-                                    | #{personenDaten.birthDate}
+                                    | #{userdata.birthdate}
                                     br
-                                    | #{personenDaten.email}
+                                    | #{userdata.email}
                                 .grid-inner-element-button()
                                     a(id='change', href='/details') Ändern
                         .grid-inner()
@@ -44,7 +45,7 @@ html
                                 hr(style='border-color: #fcc508;')
                                 |
                                 .boxText()
-                                    | #{personenDaten.payMethod}
+                                    | #{userdata.description}
                                 .grid-inner-element-button()
                                     a(id='change', href='/details') Ändern
                     .grid()
@@ -55,32 +56,25 @@ html
                                 hr(style='border-color: #fcc508;')
                                 |
                                 .boxText()
-                                    | #{personenDaten.invoiceAddress.salutation} #{personenDaten.invoiceAddress.lastName} #{personenDaten.invoiceAddress.firstName}
+                                    | #{userdata.name} #{userdata.surname}
                                     br
-                                    | #{personenDaten.invoiceAddress.street}, #{personenDaten.invoiceAddress.houseNumber}
+                                    | #{userdata.street}
                                     br
-                                    | #{personenDaten.invoiceAddress.countryCode}, #{personenDaten.invoiceAddress.plz}, #{personenDaten.invoiceAddress.town}
+                                    | #{userdata.shipping_zipcode}, #{userdata.city}
                                 .grid-inner-element-button()
                                     a(id='change', href='/details') Ändern
                         .grid-inner()
                             .grid-inner-element()
-                                unless personenDaten.sameAddress
-                                    strong Lieferadresse
-                                    |
-                                    hr(style='border-color: #fcc508;')
-                                    |
-                                    .boxText()
-                                        | #{personenDaten.shippingAddress.salutation} #{personenDaten.shippingAddress.lastName} #{personenDaten.shippingAddress.firstName}
-                                        br
-                                        | #{personenDaten.shippingAddress.street}, #{personenDaten.shippingAddress.houseNumber}
-                                        br
-                                        | #{personenDaten.shippingAddress.countryCode}, #{personenDaten.shippingAddress.plz}, #{personenDaten.shippingAddress.town}
-                                else
-                                    strong Lieferadresse
-                                    |
-                                    hr(style='border-color: #fcc508;')
-                                    |
-                                    | Entspricht der Rechnungsadresse
+                                strong Lieferadresse
+                                |
+                                hr(style='border-color: #fcc508;')
+                                |
+                                .boxText()
+                                    | #{userdata.shipping_name} #{userdata.shipping_surname}
+                                    br
+                                    | #{userdata.shipping_street}
+                                    br
+                                    | #{userdata.shipping_zipcode}, #{userdata.shipping_city}
                                 .grid-inner-element-button()
                                     a(id='change', href='/details') Ändern
     script(type="module", src='/script/details.js')

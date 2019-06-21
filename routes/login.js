@@ -5,8 +5,6 @@ module.exports.submit = function(req, res) {
 
     var sql = "SELECT * FROM user WHERE email = '" + email + "' and password = '" + password + "'";
 
-    console.log(sql)
-
     global.connection.query(sql, function(err, result) {
         if (err) throw err;
 
