@@ -3,6 +3,7 @@ html
     head
         title Simple Web Shop
         link(rel='stylesheet', href='/css/main.css')
+        link(href="https://fonts.googleapis.com/css?family=Titillium+Web:600&display=swap" rel="stylesheet")
     body
         .main()
             .topbar()
@@ -27,38 +28,30 @@ html
                         a(href='#') GRAFIKKARTEN
                         a(href='#') MOTHERBOARD
                         a(href='#') CONTACT
-            .welconme_text()
-                .container()
-                    h1 WELCOME TO #[span BCP] CHECK OUR LATEST OFFER
-            .event_section()
-                .container()
-                    .firstEvent()
-                        h3 CHECKOUT
-                        p TEXT TEXT TEXT TEXT TEXT
-                    .secondEvent()
-                        h3 CHECKOUT
-                        p TEXT TEXT TEXT TEXT TEXT
-                    .thirdEvent()
-                        h3 CHECKOUT
-                        p TEXT TEXT TEXT TEXT TEXT
+                .welconme_text()
+                    .container()
+                        img(class='logo img', src='images/logo.png', style='max-height: 50px;')
             .product()
                 .container()
                     .product_section_title() #{sectionTitle}
                     each product in products
                         .productCard()
                             .productImg()
-                                img(src=product.image_path)
+                                img(class='product_img img', src=product.image_path)
                             .productText()
-                                h4 #{product.name}
-                            .starIcon()
-                                img(src='images/star_yellow.png')
-                                img(src='images/star_yellow.png')
-                                img(src='images/star_yellow.png')
-                                img(src='images/star_yellow.png')
-                                img(src='images/star_black.png')
-                            .productDesc() Noch #{product.stock} auf Lager
-                            .productPrice()
-                                .price() #{product.price}
+                                h4 #{product.description}
+                            .product_desc()
+                                if product.stock == 0
+                                    .aufLagerContainer()
+                                        h4 Verfügbarkeit: #[img(class='redDot')]
+                                else if product.stock > 0 && product.stock <= 5
+                                    .aufLagerContainer()
+                                        h4 Verfügbarkeit: #[img(class='orangeDot')]
+                                else
+                                    .aufLagerContainer()
+                                        h4 Verfügbarkeit: #[img(class='greenDot')]
+                            .product_price()
+                                .price() #{product.price.toFixed(2)} €
                             button(class='button')
                                a(id='adToCard', href='/shoppingcard/add?id=' + product.id +'&price=' + product.price + '&name=' + product.name + '&stock=' + product.stock) In den Warenkorb
     script(type="module", src='/script/main.js')
