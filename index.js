@@ -4,6 +4,7 @@
 const express = require('express')
 const mysql = require('mysql')
 const path = require('path')
+const favicon = require('serve-favicon');
 const NodeCache = require('node-cache')
 
 /**
@@ -17,11 +18,10 @@ const main = require(path.join(__dirname, 'routes', 'main'));
 const PORT = process.env.PORT || 5500;
 const app = express();
 
-app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded())
-app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
-app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+app.use(express.static('public'));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug');
