@@ -20,8 +20,7 @@ const app = express();
 
 app.use(express.json())
 app.use(express.urlencoded())
-app.use(express.static('public'));
-app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.set('views', path.join(__dirname, 'views'))
